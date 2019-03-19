@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">Diabetes</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="home_page_name">HomePage</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Access</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="action_settings">Settings</string>
+    <string name="homepage">HomePage</string>
+    <string name="graphpage">GraphPage</string>
+    <string name="historypage">HistoryPage</string>
+    <string name="doctorpage">DoctorPage</string>
+    <string name="title_activity_ciccioactivity">ciccioactivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="help_text_1">This application is aimed at diabetic people.</string>
+    <string name="help_text_2">The goal is to try to make their life easier through an efficient and effective control of blood glucose and insulin values.</string>
+    <string name="help_text_3"><b>Profile</b>: user profile.</string>
+    <string name="help_text_4"><b>Home page</b>: daily data summary plus data entry methods.</string>
+    <string name="help_text_5"><b>Historic page</b>: collect all the glycemic values inserted over time.</string>
+    <string name="help_text_6"><b>Doctor page</b>: profile of the attending physician.</string>
+    <string name="help_text_7"><b>Graph page</b>: graphs of collected data.</string>
+    <string name="help_text_8"><b>Connected Device page</b>: how to connect your sensors.</string>
+    <string name="before_after"><![CDATA[<Before/After>]]></string>
+    <string name="login">Login</string>
+    <string name="forgot_password">forgot password</string>
+    <string name="dinner_value">Dinner Value</string>
+    <string name="breakfast_value">Breakfast Value</string>
+    <string name="lunch_value">Lunch Value</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="go_to_login_page">Go To Login Page</string>
+    <string name="repeat_password">repeat password</string>
+    <string name="new_password">new password</string>
+    <string name="send_verification_code">Send Verification Code</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="insert_verification_code">insert verification code</string>
+    <string name="go_to_reset_password">Go To Reset Password</string>
+    <string name="insert_a_valid_telephone_number">insert a valid telephone number</string>
+    <string name="insert_a_valid_email">insert a valid email</string>
+    <string name="connect_device">Connect Device</string>
+    <string name="togglebutton">ToggleButton</string>
+    <string name="sensor_1">Sensor_1</string>
+    <string name="sensor_3">Sensor_3</string>
+    <string name="connected_device">Connected Device</string>
+    <string name="alert_dialog">Alert Dialog</string>
+    <string name="error_could_not_connect">Could not Connect</string>
+    <string name="error_during_load">error during load</string>
+</resources>

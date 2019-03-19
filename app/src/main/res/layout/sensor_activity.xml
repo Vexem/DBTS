@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/footer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+
+    <LinearLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:orientation="vertical"
+        android:layout_marginBottom="50dp">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent">
+
+            <LinearLayout
+                android:id="@+id/profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp">
+
+                    <TableLayout
+                        android:id="@+id/connected_device_table"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:stretchColumns="0"
+                        android:visibility="visible">
+
+                        <TableRow
+                            android:id="@+id/on-off"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#FFFFFF">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_column="0"
+                                android:layout_margin="1dp"
+                                android:background="#FFFFFF"
+                                android:text="@string/connected_device"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textStyle="bold" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#000000">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_column="0"
+                                android:layout_margin="1dp"
+                                android:background="#FFFFFF"
+                                android:contentDescription=""
+                                android:text="@string/sensor_1"
+                                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                            <ToggleButton
+                                android:id="@+id/toggleButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="#FFFFFF"
+                                android:checked="true"
+                                android:text="@string/togglebutton" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#000000">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_column="0"
+                                android:layout_margin="1dp"
+                                android:background="#f2f2f2"
+                                android:contentDescription=""
+                                android:text="Sensor_2"
+                                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                            <ToggleButton
+                                android:id="@+id/toggleButton2"
+                                android:background="#FFFFFF"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/togglebutton" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#000000">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_column="0"
+                                android:layout_margin="1dp"
+                                android:background="#FFFFFF"
+                                android:contentDescription=""
+                                android:text="@string/sensor_3"
+                                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                            <ToggleButton
+                                android:id="@+id/toggleButton3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="#FFFFFF"
+                                android:enabled="true"
+                                android:text="@string/togglebutton" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#000000">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_column="0"
+                                android:layout_margin="1dp"
+                                android:background="#f2f2f2"
+                                android:contentDescription=""
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                            <ToggleButton
+                                android:id="@+id/toggleButton4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="#FFFFFF"
+                                android:text="@string/togglebutton"
+                                android:enabled="false"/>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#000000">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_column="0"
+                                android:layout_margin="1dp"
+                                android:background="#FFFFFF"
+                                android:contentDescription=""
+                                android:gravity="center"
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                            <ToggleButton
+                                android:id="@+id/toggleButton5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:enabled="false"
+                                android:text="@string/togglebutton" />
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#000000">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_column="0"
+                                android:layout_margin="1dp"
+                                android:background="#f2f2f2"
+                                android:contentDescription=""
+                                android:gravity="center"
+                                android:text=""
+                                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                            <ToggleButton
+                                android:id="@+id/toggleButton6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="#FFFFFF"
+                                android:enabled="false"
+                                android:text="@string/togglebutton" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="#000000">
+
+                        </TableRow>
+
+                    </TableLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bluetooth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:onClick="goToSensorActivity"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:layout_width="@dimen/bluetooth_img_height"
+                        android:layout_height="@dimen/bluetooth_img_height"
+                        android:src="@drawable/sync" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/bluetooth_img_height"
+                        android:onClick="goToSensorActivity"
+                        android:text="Scan for Device"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/connect_device"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:onClick="connect_device"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/bluetooth_img_height"
+                        android:layout_height="@dimen/bluetooth_img_height"
+                        android:src="@drawable/bluetooth_img" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <!--  Footer linear layout  -->
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="false"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_marginRight="0dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <ImageButton
+                android:id="@+id/home_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="a"
+                android:drawableTop="@color/button_color"
+                android:gravity="bottom"
+                android:src="@drawable/home_page"
+                android:text="@string/homepage"
+                android:onClick="goToHomePageActivity"/>
+
+            <ImageButton
+                android:id="@+id/doctor_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="b"
+                android:drawableTop="@color/button_color"
+                android:gravity="bottom"
+                android:src="@drawable/doctor_image"
+                android:text="@string/doctorpage"
+                android:onClick="goToDoctorActivity"/>
+
+            <ImageButton
+                android:id="@+id/graph_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="c"
+                android:drawableTop="@color/button_color"
+                android:gravity="bottom"
+                android:src="@drawable/graph_image"
+                android:text="@string/graphpage"
+                android:onClick="goToGraphActivity"/>
+
+            <ImageButton
+                android:id="@+id/hist_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:contentDescription="d"
+                android:drawableTop="@color/button_color"
+                android:gravity="bottom"
+                android:src="@drawable/history_image"
+                android:text="@string/historypage"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
+
+
