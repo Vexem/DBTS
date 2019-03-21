@@ -56,4 +56,5 @@
     <string name="alert_dialog">Alert Dialog</string>
     <string name="error_could_not_connect">Could not Connect</string>
     <string name="error_during_load">error during load</string>
+    <string name="web_client_id">725562981007-1m54kjtpr8gnsm9371cnndngras4hth5.apps.googleusercontent.com</string>
 </resources>
