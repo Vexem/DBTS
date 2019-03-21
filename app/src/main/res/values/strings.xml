@@ -56,4 +56,9 @@
     <string name="alert_dialog">Alert Dialog</string>
     <string name="error_could_not_connect">Could not Connect</string>
     <string name="error_during_load">error during load</string>
+    <string name="google_login_button_text">Sign in with Google+</string>
+    <string name="google_login_required">You need to have a Google account registered on your phone to log in.</string>
+    <string name="no_account_found_message">Login Fail</string>
+    <string name="select_account_dialog_title">select account</string>
+
 </resources>

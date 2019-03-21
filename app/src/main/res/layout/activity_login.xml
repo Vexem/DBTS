@@ -113,6 +113,21 @@
                 android:layout_marginTop="20dp"
                 android:onClick="goToForgotPasswordPage"/>
 
+            <Button
+                android:id="@+id/google_login_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/google_login_button_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/google_login_required" />
+
         </LinearLayout>
     </ScrollView>
 
