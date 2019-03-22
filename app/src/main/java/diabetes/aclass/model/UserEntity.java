@@ -24,52 +24,83 @@ public class UserEntity {
     @Expose
     @PrimaryKey
     @NonNull
-    private int id;
+    private String id;
 
-    @SerializedName("surname")
+    @SerializedName("provider")
     @Expose
-    private String surname;
+    private String provider;
 
-    @SerializedName("name")
+    @SerializedName("first_name")
     @Expose
-    private String name;
+    private String first_name;
+
+    @SerializedName("last_name")
+    @Expose
+    private String last_name;
+
+    @SerializedName("username")
+    @Expose
+    private String username;
+
+    @SerializedName("email")
+    @Expose
+    private String email;
+
 
     @SerializedName("oauth_token")
     @Expose
     private String oauth_token;
 
-    @SerializedName("is_doctor")
-    @Expose
-    private Boolean is_doctor;
-
     @SerializedName("oauth_expires_at")
     @Expose
     private Timestamp oauth_expires_at;
-    private Timestamp created_at;
-    private Timestamp updated_at;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getProvider() {
+        return provider;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setProvider(String provider) {
+        this.provider = provider;
     }
 
-    public String getName() {
-        return name;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getOauth_token() {
@@ -80,14 +111,6 @@ public class UserEntity {
         this.oauth_token = oauth_token;
     }
 
-    public Boolean getIs_doctor() {
-        return is_doctor;
-    }
-
-    public void setIs_doctor(Boolean is_doctor) {
-        this.is_doctor = is_doctor;
-    }
-
     public Timestamp getOauth_expires_at() {
         return oauth_expires_at;
     }
@@ -95,38 +118,6 @@ public class UserEntity {
     public void setOauth_expires_at(Timestamp oauth_expires_at) {
         this.oauth_expires_at = oauth_expires_at;
     }
-
-    public Timestamp getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
-    }
-
-    public Timestamp getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserEntity that = (UserEntity) o;
-        return id == that.id &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(oauth_token, that.oauth_token) &&
-                Objects.equals(is_doctor, that.is_doctor) &&
-                Objects.equals(oauth_expires_at, that.oauth_expires_at) &&
-                Objects.equals(created_at, that.created_at) &&
-                Objects.equals(updated_at, that.updated_at);
-    }
-
 }
 
 

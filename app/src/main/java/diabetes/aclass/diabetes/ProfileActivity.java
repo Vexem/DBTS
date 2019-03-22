@@ -54,11 +54,10 @@ public class ProfileActivity extends AppCompatActivity implements IprofileView {
                     for (int i = 0; i < users.length(); i++) {
                         JSONObject jsonObject = users.getJSONObject(i);
                         UserEntity user = new UserEntity();
-                        user.setName(jsonObject.getString("name"));
-                        user.setSurname(jsonObject.getString("surname"));
-                        user.setIs_doctor(jsonObject.getBoolean("is_doctor"));
-                        firstnametext.setText(user.getName());
-                        lastName.setText(user.getSurname());
+                        user.setFirst_name(jsonObject.getString("name"));
+                        user.setLast_name(jsonObject.getString("surname"));
+                        firstnametext.setText(user.getFirst_name());
+                        lastName.setText(user.getLast_name());
                     }
                 } catch (JsonIOException | JSONException e) {
                     Log.e("", e.getMessage(), e);
