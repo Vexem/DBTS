@@ -68,6 +68,10 @@ public class HomePageActivity extends AppCompatActivity {
             startActivity(myIntent);
             return true;
         }
+        if (id == R.id.action_logout){
+            LoginActivity lg = new LoginActivity();
+            lg.revokeAccess();
+        }
 
         return super.onOptionsItemSelected(item);
     }

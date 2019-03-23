@@ -18,6 +18,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import org.json.JSONObject;
@@ -39,9 +40,8 @@ public class LoginActivity extends Activity {
     ProfilePresenterImpl mainPresenter ;
     public static final String GOOGLE_ACCOUNT = "google_account";
     private static final String API_URL = API_BASE + "users";
-    private GoogleApiClient mGoogleApiClient;
     private int RC_SIGN_IN = 0;
-    private OnLoginListener onLoginListener;
+    private GoogleApiClient mGoogleApiClient;
 
 
     @Override
@@ -93,7 +93,6 @@ public class LoginActivity extends Activity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             final GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            onLoginListener.onSuccess(account);
             mainPresenter = new ProfilePresenterImpl();
             mainPresenter.fetchData(API_URL, new DataCallback() {
                 @Override
@@ -105,7 +104,9 @@ public class LoginActivity extends Activity {
                     user.setUsername(account.getGivenName());
                     user.setEmail(account.getEmail());
                     user.setOauth_token(account.getIdToken());
-                    JSONObject jsonObject = new JSONObject();
+                    Intent myIntent = new Intent(getApplicationContext(), HomePageActivity.class);
+                    startActivity(myIntent);
+
                 }
             });
             // Signed in successfully, show authenticated UI.
@@ -126,10 +127,16 @@ public class LoginActivity extends Activity {
         finish();
     }
 
-}
-
-interface OnLoginListener {
-     void onSuccess(GoogleSignInAccount account);
-     void onFailed(String why);
+    public void revokeAccess() {
+        mGoogleSignInClient.revokeAccess()
+            .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                    //this.startActivity(myIntent);
+                    startActivity(myIntent);
+                }
+            });
+    }
 
 }
