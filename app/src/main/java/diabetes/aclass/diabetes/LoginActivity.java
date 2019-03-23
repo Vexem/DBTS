@@ -80,41 +80,34 @@ public class LoginActivity extends Activity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
+        try {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+            GoogleSignInAccount account = task.getResult(ApiException.class);
+            handleSignInResult(account);
+
+        } catch (ApiException e) {
+            e.printStackTrace();
         }
+
     }
 
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            final GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            mainPresenter = new ProfilePresenterImpl();
-            mainPresenter.fetchData(API_URL, new DataCallback() {
-                @Override
-                public void onSuccess(JSONObject response) {
-                    UserEntity user = new UserEntity();
-                    user.setId(account.getId());
-                    user.setFirst_name(account.getDisplayName());
-                    user.setLast_name(account.getFamilyName());
-                    user.setUsername(account.getGivenName());
-                    user.setEmail(account.getEmail());
-                    user.setOauth_token(account.getIdToken());
-                    Intent myIntent = new Intent(getApplicationContext(), HomePageActivity.class);
-                    startActivity(myIntent);
-
-                }
-            });
-            // Signed in successfully, show authenticated UI.
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-        }
+    private void handleSignInResult(final GoogleSignInAccount account) {
+        mainPresenter = new ProfilePresenterImpl();
+        mainPresenter.fetchData(API_URL, new DataCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                UserEntity user = new UserEntity();
+                user.setId(account.getId());
+                user.setFirst_name(account.getDisplayName());
+                user.setLast_name(account.getFamilyName());
+                user.setUsername(account.getGivenName());
+                user.setEmail(account.getEmail());
+                user.setOauth_token(account.getIdToken());
+                Intent myIntent = new Intent(getApplicationContext(), HomePageActivity.class);
+                startActivity(myIntent);
+            }
+        });
 
     }
 
