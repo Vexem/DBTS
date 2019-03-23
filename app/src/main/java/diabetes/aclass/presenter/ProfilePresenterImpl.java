@@ -18,7 +18,7 @@ public class ProfilePresenterImpl {
 
 
     public void fetchData(final String url, final DataCallback callback){
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, null
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null
                 , new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

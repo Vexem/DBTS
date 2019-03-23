@@ -3,6 +3,7 @@ package diabetes.aclass.diabetes;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 public class InsertValueActivity extends AppCompatActivity {
     private EditText b_b_value;
@@ -73,6 +80,21 @@ public class InsertValueActivity extends AppCompatActivity {
             //this.startActivity(myIntent);
             startActivity(myIntent);
             return true;
+        }
+        if (id == R.id.action_logout) {
+            final Intent intent = new Intent(this, LoginActivity.class);
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+            GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+            mGoogleSignInClient.revokeAccess()
+                    .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            //this.startActivity(myIntent);
+                            startActivity(intent);
+                        }
+                    });
         }
 
         return super.onOptionsItemSelected(item);

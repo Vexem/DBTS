@@ -1,6 +1,7 @@
 package diabetes.aclass.diabetes;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,7 +43,7 @@ public class LoginActivity extends Activity {
     private static final String API_URL = API_BASE + "users";
     private int RC_SIGN_IN = 0;
     private GoogleApiClient mGoogleApiClient;
-
+    private GoogleSignInOptions gso;
 
     @Override
     public void onStart() {
@@ -64,7 +65,7 @@ public class LoginActivity extends Activity {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(getApplicationContext(), gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,19 +77,26 @@ public class LoginActivity extends Activity {
     }
 
 
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        try {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            GoogleSignInAccount account = task.getResult(ApiException.class);
-            handleSignInResult(account);
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
 
-        } catch (ApiException e) {
-            e.printStackTrace();
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+
+            try {
+                // The Task returned from this call is always completed, no need to attach
+                // a listener.
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                handleSignInResult(account);
+            } catch (ApiException e) {
+                // The ApiException status code indicates the detailed failure reason.
+                Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            }
         }
-
     }
 
 
@@ -118,18 +126,6 @@ public class LoginActivity extends Activity {
 
         startActivity(intent);
         finish();
-    }
-
-    public void revokeAccess() {
-        mGoogleSignInClient.revokeAccess()
-            .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
-                    //this.startActivity(myIntent);
-                    startActivity(myIntent);
-                }
-            });
     }
 
 }
