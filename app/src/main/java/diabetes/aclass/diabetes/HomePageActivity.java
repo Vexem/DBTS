@@ -2,6 +2,7 @@ package diabetes.aclass.diabetes;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -10,6 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,7 +29,8 @@ import static android.app.PendingIntent.getActivity;
  */
 public class HomePageActivity extends AppCompatActivity {
     private boolean value = false;
-    public Button button;
+    public Button signOut;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,12 @@ public class HomePageActivity extends AppCompatActivity {
         EditText dateBoxText = findViewById(R.id.date_box);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         dateBoxText.setText(sdf.format(new Date()));
+        signOut=findViewById(R.id.out);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
     }
 
     @Override
@@ -102,5 +117,14 @@ public class HomePageActivity extends AppCompatActivity {
         Intent myIntent = new Intent(this, HistoryPageActivity.class);
         startActivity(myIntent);
     }
+    public void signOut(View view) {
+        Intent intent = new Intent(HomePageActivity.this, LoginActivity.class);
+        LoginActivity a = new LoginActivity();
+        a.SignOut(intent);
+
+        Toast.makeText(this, "BELLA", Toast.LENGTH_SHORT).show();
+    }
+
+
 }
 
