@@ -121,7 +121,7 @@ public class LoginActivity extends Activity {
 
 
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
-        Intent intent = new Intent(this, ProfileActivity.class);
+        Intent intent = new Intent(this, HomePageActivity.class);
         intent.putExtra(LoginActivity.GOOGLE_ACCOUNT, googleSignInAccount);
 
         startActivity(intent);
