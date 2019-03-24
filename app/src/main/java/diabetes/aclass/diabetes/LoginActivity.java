@@ -98,9 +98,8 @@ public class LoginActivity extends Activity {
 
     private void handleSignInResult(final GoogleSignInAccount account) {
         Intent myIntent = new Intent(getApplicationContext(), HomePageActivity.class);
-        startActivity(myIntent);
         loadData(account);
-
+        startActivity(myIntent);
     }
 
     private void loadData(final GoogleSignInAccount account){
@@ -116,7 +115,6 @@ public class LoginActivity extends Activity {
                     user.setUsername(account.getGivenName());
                     user.setEmail(account.getEmail());
                     user.setOauth_token(account.getIdToken());
-
                 }
             });
         } catch (Exception e) {
