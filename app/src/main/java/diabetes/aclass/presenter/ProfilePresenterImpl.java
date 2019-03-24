@@ -9,8 +9,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONObject;
 
-import java.net.URL;
-
 import diabetes.aclass.base.NetworkController;
 import diabetes.aclass.dagger.component.DataCallback;
 
