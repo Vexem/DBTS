@@ -102,7 +102,7 @@ public class LoginActivity extends Activity {
 
     private void handleSignInResult(final GoogleSignInAccount account) {
         mainPresenter = new ProfilePresenterImpl();
-        mainPresenter.fetchData(API_URL, new DataCallback() {
+      /*  mainPresenter.fetchData(API_URL, new DataCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 UserEntity user = new UserEntity();
@@ -113,15 +113,23 @@ public class LoginActivity extends Activity {
                 user.setEmail(account.getEmail());
                 user.setOauth_token(account.getIdToken());
                 Intent myIntent = new Intent(getApplicationContext(), HomePageActivity.class);
-                startActivity(myIntent);
+               startActivity(myIntent);
             }
-        });
+        });*/
+
+        GoogleSignInAccount alreadyloggedAccount = GoogleSignIn.getLastSignedInAccount(this);
+        if (alreadyloggedAccount != null) {
+            Toast.makeText(this, "LogIn Successful", Toast.LENGTH_SHORT).show();
+            onLoggedIn(alreadyloggedAccount);
+        } else {
+            Log.d(TAG, "Not logged in");
+        }
 
     }
 
 
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
-        Intent intent = new Intent(this, ProfileActivity.class);
+        Intent intent = new Intent(this, HomePageActivity.class);
         intent.putExtra(LoginActivity.GOOGLE_ACCOUNT, googleSignInAccount);
 
         startActivity(intent);
