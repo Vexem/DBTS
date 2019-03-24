@@ -20,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 
 import org.json.JSONArray;
@@ -60,10 +61,8 @@ public class ProfileActivity extends AppCompatActivity implements IprofileView {
                     for (int i = 0; i < users.length(); i++) {
                         JSONObject jsonObject = users.getJSONObject(i);
                         UserEntity user = new UserEntity();
-                        user.setFirst_name(jsonObject.getString("name"));
-                        user.setLast_name(jsonObject.getString("surname"));
-                        firstnametext.setText(user.getFirst_name());
-                        lastName.setText(user.getLast_name());
+                        Gson gson = new Gson();
+
                     }
                 } catch (JsonIOException | JSONException e) {
                     Log.e("", e.getMessage(), e);
