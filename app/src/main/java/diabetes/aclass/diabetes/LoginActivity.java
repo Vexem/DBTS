@@ -97,24 +97,32 @@ public class LoginActivity extends Activity {
 
 
     private void handleSignInResult(final GoogleSignInAccount account) {
-        mainPresenter = new ProfilePresenterImpl();
-        mainPresenter.fetchData(API_URL, new DataCallback() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                UserEntity user = new UserEntity();
-                user.setId(account.getId());
-                user.setFirst_name(account.getDisplayName());
-                user.setLast_name(account.getFamilyName());
-                user.setUsername(account.getGivenName());
-                user.setEmail(account.getEmail());
-                user.setOauth_token(account.getIdToken());
-                Intent myIntent = new Intent(getApplicationContext(), HomePageActivity.class);
-                startActivity(myIntent);
-            }
-        });
+        Intent myIntent = new Intent(getApplicationContext(), HomePageActivity.class);
+        startActivity(myIntent);
+        loadData(account);
 
     }
 
+    private void loadData(final GoogleSignInAccount account){
+        try {
+            mainPresenter = new ProfilePresenterImpl();
+            mainPresenter.fetchData(API_URL, new DataCallback() {
+                @Override
+                public void onSuccess(JSONObject response) {
+                    UserEntity user = new UserEntity();
+                    user.setId(account.getId());
+                    user.setFirst_name(account.getDisplayName());
+                    user.setLast_name(account.getFamilyName());
+                    user.setUsername(account.getGivenName());
+                    user.setEmail(account.getEmail());
+                    user.setOauth_token(account.getIdToken());
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
         Intent intent = new Intent(this, HomePageActivity.class);
