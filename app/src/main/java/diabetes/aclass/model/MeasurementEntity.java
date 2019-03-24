@@ -8,6 +8,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity(tableName = "measurements")
 public class MeasurementEntity {
@@ -31,6 +33,21 @@ public class MeasurementEntity {
     @Expose
     private Timestamp created_at;
     private Timestamp updated_at;
+
+    public MeasurementEntity(int patient_id, int value, String created_at){
+    this.id = patient_id;
+    this.value = value;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+            Date parsedDate = dateFormat.parse(created_at);
+            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            this.created_at = timestamp;
+        } catch(Exception e) { //this generic but you can control another types of exception
+            // look the origin of excption
+        }
+
+
+    }
 
     public int getIdCounter() {
         return idCounter;
