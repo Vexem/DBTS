@@ -26,8 +26,6 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Calendar;
 
-import static diabetes.aclass.diabetes.HistoryPageActivity.DATE_DIALOG_ID;
-
 public class GraphActivity extends AppCompatActivity {
     private boolean value = false;
     public Button button;
