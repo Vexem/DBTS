@@ -29,9 +29,9 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import diabetes.aclass.dagger.component.DataCallback;
+import diabetes.aclass.dagger.component.DataJsonCallback;
 import diabetes.aclass.model.UserEntity;
-import diabetes.aclass.presenter.ProfilePresenterImpl;
+import diabetes.aclass.presenter.PresenterImpl;
 import diabetes.aclass.view.IprofileView;
 
 import static diabetes.aclass.utils.Component.API_BASE;
@@ -39,7 +39,7 @@ import static diabetes.aclass.utils.Component.API_BASE;
 
 public class ProfileActivity extends AppCompatActivity implements IprofileView {
 
-    ProfilePresenterImpl mainPresenter ;
+    PresenterImpl mainPresenter ;
     public RequestQueue mRequestQueue;
     public Context context;
     private static final String API_URL = API_BASE + "users";
@@ -52,16 +52,14 @@ public class ProfileActivity extends AppCompatActivity implements IprofileView {
         Toolbar toolbar = findViewById(R.id.toolbar);
         final EditText firstnametext = findViewById(R.id.firstname);
         final EditText lastName = findViewById(R.id.lastname);
-        mainPresenter = new ProfilePresenterImpl();
-        mainPresenter.fetchData(API_URL, new DataCallback() {
+        mainPresenter = new PresenterImpl();
+        mainPresenter.fetchData(API_URL, new DataJsonCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 try {
                     JSONArray users = response.getJSONArray("users");
                     for (int i = 0; i < users.length(); i++) {
                         JSONObject jsonObject = users.getJSONObject(i);
-                        UserEntity user = new UserEntity();
-                        Gson gson = new Gson();
 
                     }
                 } catch (JsonIOException | JSONException e) {

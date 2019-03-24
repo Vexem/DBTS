@@ -1,12 +1,8 @@
 package diabetes.aclass.diabetes;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -15,18 +11,20 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import org.json.JSONObject;
+import org.modelmapper.ModelMapper;
 
-import diabetes.aclass.dagger.component.DataCallback;
+import java.util.HashMap;
+import java.util.Map;
+
+import diabetes.aclass.dagger.component.DataJsonCallback;
+import diabetes.aclass.dagger.component.DataStringCallback;
 import diabetes.aclass.model.UserEntity;
-import diabetes.aclass.presenter.ProfilePresenterImpl;
+import diabetes.aclass.presenter.PresenterImpl;
 
 import static diabetes.aclass.utils.Component.API_BASE;
 
@@ -38,7 +36,7 @@ public class LoginActivity extends Activity {
     private static final String TAG = "AndroidClarified";
     private GoogleSignInClient mGoogleSignInClient;
     private SignInButton googleSignInButton;
-    ProfilePresenterImpl mainPresenter ;
+    PresenterImpl mainPresenter ;
     public static final String GOOGLE_ACCOUNT = "google_account";
     private static final String API_URL = API_BASE + "users";
     private int RC_SIGN_IN = 0;
@@ -104,22 +102,35 @@ public class LoginActivity extends Activity {
 
     private void loadData(final GoogleSignInAccount account){
         try {
-            mainPresenter = new ProfilePresenterImpl();
-            mainPresenter.fetchData(API_URL, new DataCallback() {
+            mainPresenter = new PresenterImpl();
+            mainPresenter.fetchData(API_URL, new DataJsonCallback() {
                 @Override
                 public void onSuccess(JSONObject response) {
                     UserEntity user = new UserEntity();
                     user.setId(account.getId());
                     user.setFirst_name(account.getDisplayName());
-                    user.setLast_name(account.getFamilyName());
-                    user.setUsername(account.getGivenName());
                     user.setEmail(account.getEmail());
                     user.setOauth_token(account.getIdToken());
+                    saveData(user);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+    private void saveData(final UserEntity userEntity){
+        mainPresenter = new PresenterImpl();
+        mainPresenter.saveData(API_URL, new DataStringCallback() {
+            @Override
+            public Map<String, String> onPostSucces(Map<String, String> response) {
+                Map<String, String> params = new HashMap<String, String>();
+                ModelMapper modelMapper = new ModelMapper();
+                modelMapper.map(userEntity, params);
+                return params;
+
+            }
+        });
     }
 
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
