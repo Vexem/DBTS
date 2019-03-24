@@ -91,11 +91,6 @@ public class HomePageActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void goToSensorActivity(View view) {
-        Intent myIntent = new Intent(this, Sensor_Activity.class);
-        startActivity(myIntent);
-    }
-
     public void goToInsertActivity(View view) {
         Intent myIntent = new Intent(this, InsertValueActivity.class);
         startActivity(myIntent);

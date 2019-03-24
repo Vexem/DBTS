@@ -1,8 +1,12 @@
 package diabetes.aclass.diabetes;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -11,9 +15,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import org.json.JSONObject;
@@ -36,38 +42,34 @@ public class LoginActivity extends Activity {
     public static final String GOOGLE_ACCOUNT = "google_account";
     private static final String API_URL = API_BASE + "users";
     private int RC_SIGN_IN = 0;
-    private GoogleApiClient mGoogleApiClient;
-    private GoogleSignInOptions gso;
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        GoogleSignInAccount alreadyloggedAccount = GoogleSignIn.getLastSignedInAccount(this);
-        if (alreadyloggedAccount != null) {
-            Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
-            onLoggedIn(alreadyloggedAccount);
-        } else {
-            Log.d(TAG, "Not logged in");
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        googleSignInButton = findViewById(R.id.sign_in_button);
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        googleSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, RC_SIGN_IN);
-            }
-        });
+        GoogleSignInAccount alreadyloggedAccount = GoogleSignIn.getLastSignedInAccount(this);
+        if (alreadyloggedAccount != null) {
+            Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
+            onLoggedIn(alreadyloggedAccount);
+
+        } else {
+            setContentView(R.layout.activity_login);
+            googleSignInButton = findViewById(R.id.sign_in_button);
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+            googleSignInButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                    startActivityForResult(signInIntent, RC_SIGN_IN);
+                }
+            });
+        }
+
+
     }
 
 
@@ -96,7 +98,7 @@ public class LoginActivity extends Activity {
 
     private void handleSignInResult(final GoogleSignInAccount account) {
         mainPresenter = new ProfilePresenterImpl();
-      /*  mainPresenter.fetchData(API_URL, new DataCallback() {
+        mainPresenter.fetchData(API_URL, new DataCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 UserEntity user = new UserEntity();
@@ -107,17 +109,9 @@ public class LoginActivity extends Activity {
                 user.setEmail(account.getEmail());
                 user.setOauth_token(account.getIdToken());
                 Intent myIntent = new Intent(getApplicationContext(), HomePageActivity.class);
-               startActivity(myIntent);
+                startActivity(myIntent);
             }
-        });*/
-
-        GoogleSignInAccount alreadyloggedAccount = GoogleSignIn.getLastSignedInAccount(this);
-        if (alreadyloggedAccount != null) {
-            Toast.makeText(this, "LogIn Successful", Toast.LENGTH_SHORT).show();
-            onLoggedIn(alreadyloggedAccount);
-        } else {
-            Log.d(TAG, "Not logged in");
-        }
+        });
 
     }
 
@@ -125,7 +119,6 @@ public class LoginActivity extends Activity {
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
         Intent intent = new Intent(this, HomePageActivity.class);
         intent.putExtra(LoginActivity.GOOGLE_ACCOUNT, googleSignInAccount);
-
         startActivity(intent);
         finish();
     }
