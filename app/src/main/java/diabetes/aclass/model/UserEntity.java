@@ -7,6 +7,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
@@ -117,6 +118,11 @@ public class UserEntity {
 
     public void setOauth_expires_at(Timestamp oauth_expires_at) {
         this.oauth_expires_at = oauth_expires_at;
+    }
+
+    @Override
+    public String toString() {
+        return new GsonBuilder().create().toJson(this, UserEntity.class);
     }
 }
 

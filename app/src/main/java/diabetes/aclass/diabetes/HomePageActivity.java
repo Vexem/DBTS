@@ -104,11 +104,6 @@ public class HomePageActivity extends AppCompatActivity {
         startActivity(myIntent);
     }
 
-    public void goToBTSincActivity(View view) {
-        Intent myIntent = new Intent(this, BT_Activity.class);
-        startActivity(myIntent);
-    }
-
 
     public void goToDoctorActivity(View view) {
         Intent myIntent = new Intent(this, DoctorProfileActivity.class);

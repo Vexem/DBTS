@@ -54,9 +54,6 @@
             android:name=".GraphActivity"
             android:label="Graph" />
         <activity
-            android:name=".BT_Activity"
-            android:label="BT_Syncronization Data" />
-        <activity
             android:name=".VerCode_Activity"
             android:label="Verification Code" />
         <activity
@@ -65,9 +62,6 @@
         <activity
             android:name=".ResetPassword_Activity"
             android:label="Reset Password" />
-        <activity
-            android:name=".Sensor_Activity"
-            android:label="Connect Sensors Page" />
     </application>
 
 </manifest>
