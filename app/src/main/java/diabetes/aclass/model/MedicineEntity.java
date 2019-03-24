@@ -16,7 +16,7 @@ public class MedicineEntity {
 
     private int idCount;
 
-    @SerializedName("id")
+    @SerializedName("medicine_id")
     @Expose
     @PrimaryKey
     @NonNull

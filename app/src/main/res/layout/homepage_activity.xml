@@ -76,15 +76,15 @@
                         android:textSize="24sp" />
                 </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:orientation="vertical"
-                android:focusable="true"
-                android:focusableInTouchMode="true">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
-                <TextView
+                    <TextView
                         android:id="@+id/text_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -118,22 +118,7 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
-                    android:onClick="goToSensorActivity">
-
-
-                    <ImageView
-                        android:layout_width="@dimen/bluetooth_img_height"
-                        android:layout_height="@dimen/bluetooth_img_height"
-                        android:src="@drawable/bluetooth_img"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/bluetooth_img_height"
-                        android:text="@string/connect_device"
-                        android:textSize="18sp"
-                        android:onClick="goToSensorActivity"/>
-
-                </LinearLayout>
+                    android:onClick="goToSensorActivity"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -311,7 +296,11 @@
                     android:layout_marginTop="50dp">
 
                     <Button
+<<<<<<< HEAD
                         android:id="@+id/out"
+=======
+                        android:id="@+id/manual_insertion2"
+>>>>>>> developP
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -319,8 +308,13 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="60dp"
                         android:layout_weight="1"
+<<<<<<< HEAD
                         android:onClick="signOut"
                         android:text="SIGN OUT" />
+=======
+                        android:onClick="goToInsertActivity"
+                        android:text="Insert New Value" />
+>>>>>>> developP
                 </LinearLayout>
 
             </LinearLayout>

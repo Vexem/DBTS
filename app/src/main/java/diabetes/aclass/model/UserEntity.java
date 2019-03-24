@@ -3,19 +3,13 @@ package diabetes.aclass.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.json.JSONException;
-
 import java.sql.Timestamp;
-import java.util.Objects;
 
 @Entity(tableName = "users")
 public class UserEntity {
@@ -54,6 +48,11 @@ public class UserEntity {
     @SerializedName("oauth_expires_at")
     @Expose
     private Timestamp oauth_expires_at;
+
+    @SerializedName("medic_id")
+    @Expose
+    private Integer medic_id;
+
 
     public String getId() {
         return id;
@@ -117,6 +116,19 @@ public class UserEntity {
 
     public void setOauth_expires_at(Timestamp oauth_expires_at) {
         this.oauth_expires_at = oauth_expires_at;
+    }
+
+    public Integer getMedic_id() {
+        return medic_id;
+    }
+
+    public void setMedic_id(int medic_id) {
+        this.medic_id = medic_id;
+    }
+
+    @Override
+    public String toString() {
+        return new GsonBuilder().create().toJson(this, UserEntity.class);
     }
 }
 

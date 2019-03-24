@@ -3,6 +3,7 @@ package diabetes.aclass.diabetes;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,6 +15,12 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 
 import org.json.JSONArray;
@@ -22,9 +29,9 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import diabetes.aclass.dagger.component.DataCallback;
+import diabetes.aclass.dagger.component.DataJsonCallback;
 import diabetes.aclass.model.UserEntity;
-import diabetes.aclass.presenter.ProfilePresenterImpl;
+import diabetes.aclass.presenter.PresenterImpl;
 import diabetes.aclass.view.IprofileView;
 
 import static diabetes.aclass.utils.Component.API_BASE;
@@ -32,7 +39,7 @@ import static diabetes.aclass.utils.Component.API_BASE;
 
 public class ProfileActivity extends AppCompatActivity implements IprofileView {
 
-    ProfilePresenterImpl mainPresenter ;
+    PresenterImpl mainPresenter ;
     public RequestQueue mRequestQueue;
     public Context context;
     private static final String API_URL = API_BASE + "users";
@@ -45,19 +52,15 @@ public class ProfileActivity extends AppCompatActivity implements IprofileView {
         Toolbar toolbar = findViewById(R.id.toolbar);
         final EditText firstnametext = findViewById(R.id.firstname);
         final EditText lastName = findViewById(R.id.lastname);
-        mainPresenter = new ProfilePresenterImpl();
-        mainPresenter.fetchData(API_URL, new DataCallback() {
+        mainPresenter = new PresenterImpl();
+        mainPresenter.fetchData(API_URL, new DataJsonCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 try {
                     JSONArray users = response.getJSONArray("users");
                     for (int i = 0; i < users.length(); i++) {
                         JSONObject jsonObject = users.getJSONObject(i);
-                        UserEntity user = new UserEntity();
-                        user.setFirst_name(jsonObject.getString("name"));
-                        user.setLast_name(jsonObject.getString("surname"));
-                        firstnametext.setText(user.getFirst_name());
-                        lastName.setText(user.getLast_name());
+
                     }
                 } catch (JsonIOException | JSONException e) {
                     Log.e("", e.getMessage(), e);
@@ -98,6 +101,23 @@ public class ProfileActivity extends AppCompatActivity implements IprofileView {
             startActivity(myIntent);
             return true;
         }
+
+        if (id == R.id.action_logout) {
+            final Intent intent = new Intent(this, LoginActivity.class);
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+            GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+            mGoogleSignInClient.revokeAccess()
+                    .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            //this.startActivity(myIntent);
+                            startActivity(intent);
+                        }
+                    });
+        }
+
 
         return super.onOptionsItemSelected(item);
     }

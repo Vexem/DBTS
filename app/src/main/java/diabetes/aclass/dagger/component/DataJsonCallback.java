@@ -2,8 +2,7 @@ package diabetes.aclass.dagger.component;
 
 import org.json.JSONObject;
 
-import diabetes.aclass.model.UserEntity;
-
-public interface DataCallback {
+public interface DataJsonCallback {
     void onSuccess(JSONObject response);
+
 }

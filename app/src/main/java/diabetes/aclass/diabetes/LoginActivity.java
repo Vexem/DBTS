@@ -3,31 +3,28 @@ package diabetes.aclass.diabetes;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import org.json.JSONObject;
+import org.modelmapper.ModelMapper;
 
-import diabetes.aclass.dagger.component.DataCallback;
+import java.util.HashMap;
+import java.util.Map;
+
+import diabetes.aclass.dagger.component.DataJsonCallback;
+import diabetes.aclass.dagger.component.DataStringCallback;
 import diabetes.aclass.model.UserEntity;
-import diabetes.aclass.presenter.ProfilePresenterImpl;
+import diabetes.aclass.presenter.PresenterImpl;
 
 import static diabetes.aclass.utils.Component.API_BASE;
 
@@ -39,43 +36,38 @@ public class LoginActivity extends Activity {
     private static final String TAG = "AndroidClarified";
     private GoogleSignInClient mGoogleSignInClient;
     private SignInButton googleSignInButton;
-    ProfilePresenterImpl mainPresenter ;
+    PresenterImpl mainPresenter ;
     public static final String GOOGLE_ACCOUNT = "google_account";
     private static final String API_URL = API_BASE + "users";
-    private GoogleApiClient mGoogleApiClient;
     private int RC_SIGN_IN = 0;
-    private OnLoginListener onLoginListener;
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        GoogleSignInAccount alreadyloggedAccount = GoogleSignIn.getLastSignedInAccount(this);
-        if (alreadyloggedAccount != null) {
-            Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
-            onLoggedIn(alreadyloggedAccount);
-        } else {
-            Log.d(TAG, "Not logged in");
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
-        googleSignInButton = findViewById(R.id.sign_in_button);
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        googleSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, RC_SIGN_IN);
-            }
-        });
+        GoogleSignInAccount alreadyloggedAccount = GoogleSignIn.getLastSignedInAccount(this);
+        if (alreadyloggedAccount != null) {
+            Toast.makeText(this, "Already Logged In", Toast.LENGTH_SHORT).show();
+            onLoggedIn(alreadyloggedAccount);
+
+        } else {
+            setContentView(R.layout.activity_login);
+            googleSignInButton = findViewById(R.id.sign_in_button);
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+            googleSignInButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                    startActivityForResult(signInIntent, RC_SIGN_IN);
+                }
+            });
+        }
+
+
     }
 
 
@@ -102,52 +94,50 @@ public class LoginActivity extends Activity {
     }
 
 
-    private void handleSignInResult(final GoogleSignInAccount acc) {
+    private void handleSignInResult(final GoogleSignInAccount account) {
+        Intent myIntent = new Intent(getApplicationContext(), HomePageActivity.class);
+        loadData(account);
+        startActivity(myIntent);
+    }
 
-           // onLoginListener.onSuccess(acc);
-            mainPresenter = new ProfilePresenterImpl();
-            mainPresenter.fetchData(API_URL, new DataCallback() {
+    private void loadData(final GoogleSignInAccount account){
+        try {
+            mainPresenter = new PresenterImpl();
+            mainPresenter.fetchData(API_URL, new DataJsonCallback() {
                 @Override
                 public void onSuccess(JSONObject response) {
                     UserEntity user = new UserEntity();
-                    user.setId(acc.getId());
-                    user.setFirst_name(acc.getDisplayName());
-                    user.setLast_name(acc.getFamilyName());
-                    user.setUsername(acc.getGivenName());
-                    user.setEmail(acc.getEmail());
-                    user.setOauth_token(acc.getIdToken());
-                    JSONObject jsonObject = new JSONObject();
+                    user.setId(account.getId());
+                    user.setFirst_name(account.getDisplayName());
+                    user.setEmail(account.getEmail());
+                    user.setOauth_token(account.getIdToken());
+                    saveData(user);
                 }
             });
-            // Signed in successfully, show authenticated UI.
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
-
-
-    private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
-        Intent intent = new Intent(this,HomePageActivity.class);
-        intent.putExtra(LoginActivity.GOOGLE_ACCOUNT, googleSignInAccount);
-
-        startActivity(intent);
-        finish();
-    }
-    public  void SignOut(final Intent intent) {
-
-        mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+    private void saveData(final UserEntity userEntity){
+        mainPresenter = new PresenterImpl();
+        mainPresenter.saveData(API_URL, new DataStringCallback() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                //On Succesfull signout we navigate the user back to LoginActivity
+            public Map<String, String> onPostSucces(Map<String, String> response) {
+                Map<String, String> params = new HashMap<String, String>();
+                ModelMapper modelMapper = new ModelMapper();
+                modelMapper.map(userEntity, params);
+                return params;
 
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
             }
         });
     }
-}
 
-interface OnLoginListener {
-     void onSuccess(GoogleSignInAccount account);
-     void onFailed(String why);
+    private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
+        Intent intent = new Intent(this, HomePageActivity.class);
+        intent.putExtra(LoginActivity.GOOGLE_ACCOUNT, googleSignInAccount);
+        startActivity(intent);
+        finish();
+    }
 
 }
