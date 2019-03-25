@@ -50,9 +50,6 @@
             android:name=".HelpPageActivity"
             android:label="Help" />
         <activity
-            android:name=".HistoryPageActivity"
-            android:label="History" />
-        <activity
             android:name=".GraphActivity"
             android:label="Graph" />
         <activity

@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,8 +15,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -29,10 +27,35 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import com.google.gson.JsonIOException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import diabetes.aclass.dagger.component.DataJsonCallback;
+import diabetes.aclass.model.MeasurementEntity;
+import diabetes.aclass.presenter.PresenterImpl;
+
 /**
  * A login screen that offers login via email/password.
  */
 public class HistoryPageActivity extends AppCompatActivity {
+
+    private static final String URL_MEASUREMENT = "http://192.168.1.73/api/v1/measurements";
+
+    //a list to store all the products
+    List<MeasurementEntity> measureList;
+
+    RecyclerView recyclerView;
+
+
     private boolean value = false;
     public Button button;
     private TextView dateFromTv;
@@ -43,6 +66,7 @@ public class HistoryPageActivity extends AppCompatActivity {
     private Calendar fromDate;
     private TextView activeDateDisplay;
     private Calendar activeDate;
+    private PresenterImpl mainPresenter ;
 
     static final int DATE_DIALOG_ID = 0;
 
@@ -53,6 +77,16 @@ public class HistoryPageActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //getting the recyclerview from xml
+        recyclerView = findViewById(R.id.recylcerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+        measureList = new ArrayList<>();
+        loadProducts();
+
+
         //set the date box value with today date
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         EditText dateFromText = findViewById(R.id.date_from);
@@ -60,53 +94,6 @@ public class HistoryPageActivity extends AppCompatActivity {
         EditText dateToText = findViewById(R.id.date_to);
         dateToText.setText(sdf.format(new Date()));
 
-        //insert example rows
-        TableLayout tl = (TableLayout) findViewById(R.id.history_table);
-
-        for(int i = 1; i < 10; i++){
-
-            int color = getResources().getColor(R.color.table_row_odd);
-            if((i%2)==0){
-                color = getResources().getColor(R.color.table_row_even);
-            }
-
-            TableRow tr = new TableRow(this);
-            tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-            tr.setBackgroundColor(color);
-
-            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(1,1,1,1);
-
-            TextView tv = new TextView(this);
-            tv.setLayoutParams(layoutParams);
-            tv.setText("0"+i+"/01/2018");
-            tv.setGravity(Gravity.CENTER);
-            tv.setTextColor(getResources().getColor(R.color.black));
-            tr.addView(tv);
-
-            tv = new TextView(this);
-            tv.setLayoutParams(layoutParams);
-            tv.setText("4"+i);
-            tv.setGravity(Gravity.CENTER);
-            tv.setTextColor(getResources().getColor(R.color.black));
-            tr.addView(tv);
-
-            tv = new TextView(this);
-            tv.setLayoutParams(layoutParams);
-            tv.setText("20"+i+" (!)");
-            tv.setGravity(Gravity.CENTER);
-            tv.setTextColor(getResources().getColor(R.color.black));
-            tr.addView(tv);
-
-            tv = new TextView(this);
-            tv.setLayoutParams(layoutParams);
-            tv.setText("7"+i);
-            tv.setGravity(Gravity.CENTER);
-            tv.setTextColor(getResources().getColor(R.color.black));
-            tr.addView(tv);
-
-            tl.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
-        }
 
         //date picker FROM
         dateFromTv = (TextView) findViewById(R.id.date_from);
@@ -132,6 +119,78 @@ public class HistoryPageActivity extends AppCompatActivity {
 
         updateDisplay(dateFromTv, toDate);
         updateDisplay(dateToTv, toDate);
+    }
+
+    private void loadProducts() {
+
+        /*
+         * Creating a String Request
+         * The request type is GET defined by first parameter
+         * The URL is defined in the second parameter
+         * Then we have a Response Listener and a Error Listener
+         * In response listener we will get the JSON response as a String
+         * */
+
+        mainPresenter = new PresenterImpl();
+        mainPresenter.fetchData(URL_MEASUREMENT, new DataJsonCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                try {
+                    JSONArray array = response.getJSONArray("measurements");
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject measure = array.getJSONObject(i);
+                        measureList.add(new MeasurementEntity(
+                                measure.getInt("patient_id"),
+                                measure.getInt("value"),
+                                measure.getString("created_at")));
+                    }
+                    MeasureAdapter adapter = new MeasureAdapter(HistoryPageActivity.this, measureList);
+                    recyclerView.setAdapter(adapter);
+                } catch (JsonIOException | JSONException e) {
+                    Log.e("", e.getMessage(), e);
+                }
+
+            }
+        });
+        //adding our stringrequest to queue
+      //  Volley.newRequestQueue(this).add(stringRequest);
+
+    /*    StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_MEASUREMENT,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //converting the string to json array object
+                            JSONArray array = new JSONArray(response);
+
+                            //traversing through all the object
+                            for (int i = 0; i < array.length(); i++) {
+
+                                //getting measure object from json array
+                                JSONObject measure = array.getJSONObject(i);
+
+                                //adding the measure to measure list
+                                measureList.add(new MeasurementEntity(
+                                        measure.getInt("patient_id"),
+                                        measure.getInt("value"),
+                                        measure.getString("created_at")));
+                            }
+
+                            //creating adapter object and setting it to recyclerview
+                            MeasureAdapter adapter = new MeasureAdapter(HistoryPageActivity.this, measureList);
+                            recyclerView.setAdapter(adapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });  */
+
     }
 
     private void updateDisplay(TextView dateDisplay, Calendar date) {
