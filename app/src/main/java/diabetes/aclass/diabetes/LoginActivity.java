@@ -66,8 +66,6 @@ public class LoginActivity extends Activity {
                 }
             });
         }
-
-
     }
 
 
@@ -111,6 +109,7 @@ public class LoginActivity extends Activity {
                     user.setFirst_name(account.getDisplayName());
                     user.setEmail(account.getEmail());
                     user.setOauth_token(account.getIdToken());
+                    Log.d("account", account.toString());
                     saveData(user);
                 }
             });
@@ -127,6 +126,7 @@ public class LoginActivity extends Activity {
                 Map<String, String> params = new HashMap<String, String>();
                 ModelMapper modelMapper = new ModelMapper();
                 modelMapper.map(userEntity, params);
+
                 return params;
 
             }
