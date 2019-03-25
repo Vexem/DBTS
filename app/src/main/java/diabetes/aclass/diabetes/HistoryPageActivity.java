@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonIOException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +44,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import diabetes.aclass.dagger.component.DataJsonCallback;
 import diabetes.aclass.model.MeasurementEntity;
+import diabetes.aclass.presenter.PresenterImpl;
 
 /**
  * A login screen that offers login via email/password.
@@ -67,6 +71,7 @@ public class HistoryPageActivity extends AppCompatActivity {
     private Calendar fromDate;
     private TextView activeDateDisplay;
     private Calendar activeDate;
+    private PresenterImpl mainPresenter ;
 
     static final int DATE_DIALOG_ID = 0;
 
@@ -130,7 +135,32 @@ public class HistoryPageActivity extends AppCompatActivity {
          * Then we have a Response Listener and a Error Listener
          * In response listener we will get the JSON response as a String
          * */
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_MEASUREMENT,
+
+        mainPresenter = new PresenterImpl();
+        mainPresenter.fetchData(URL_MEASUREMENT, new DataJsonCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                try {
+                    JSONArray array = response.getJSONArray("measurements");
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject measure = array.getJSONObject(i);
+                        measureList.add(new MeasurementEntity(
+                                measure.getInt("patient_id"),
+                                measure.getInt("value"),
+                                measure.getString("created_at")));
+                    }
+                    MeasureAdapter adapter = new MeasureAdapter(HistoryPageActivity.this, measureList);
+                    recyclerView.setAdapter(adapter);
+                } catch (JsonIOException | JSONException e) {
+                    Log.e("", e.getMessage(), e);
+                }
+
+            }
+        });
+        //adding our stringrequest to queue
+      //  Volley.newRequestQueue(this).add(stringRequest);
+
+    /*    StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_MEASUREMENT,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -164,10 +194,8 @@ public class HistoryPageActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
 
                     }
-                });
+                });  */
 
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(this).add(stringRequest);
     }
 
     private void updateDisplay(TextView dateDisplay, Calendar date) {
