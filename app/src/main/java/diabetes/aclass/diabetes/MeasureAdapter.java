@@ -41,8 +41,8 @@ public class MeasureAdapter extends RecyclerView.Adapter<MeasureAdapter.MeasureV
         MeasurementEntity measure = MeasureList.get(position);
 
         //loading the image
-        holder.textViewTitle.setText(String.valueOf(measure.getCreated_at()));
-        //holder.textViewShortDesc.setText(measure.getShortdesc());
+        holder.textViewTitle.setText(String.valueOf(measure.getCreated_atDate()));
+        holder.textViewShortDesc.setText(String.valueOf(measure.getCreated_atTime()));
         holder.textViewRating.setText(String.valueOf(measure.getValue()));
         holder.textViewPrice.setText(String.valueOf(measure.getId()));
     }
@@ -64,7 +64,7 @@ public class MeasureAdapter extends RecyclerView.Adapter<MeasureAdapter.MeasureV
             textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
-            imageView = itemView.findViewById(R.id.imageView);
+           // imageView = itemView.findViewById(R.id.imageView);
         }
     }
 }
