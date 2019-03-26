@@ -31,20 +31,14 @@ public class MeasurementEntity {
 
     @SerializedName("created_at")
     @Expose
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private String created_at;
+    private String updated_at;
 
     public MeasurementEntity(int patient_id, int value, String created_at){
     this.id = patient_id;
     this.value = value;
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-            Date parsedDate = dateFormat.parse(created_at);
-            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-            this.created_at = timestamp;
-        } catch(Exception e) { //this generic but you can control another types of exception
-            // look the origin of excption
-        }
+    this.created_at = created_at;
+
     }
 
     public int getIdCounter() {
@@ -67,23 +61,25 @@ public class MeasurementEntity {
         return name;
     }
 
+    public int getValue(){ return value;}
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public Timestamp getCreated_at() {
+    public String getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Timestamp created_at) {
+    public void setCreated_at(String created_at) {
         this.created_at = created_at;
     }
 
-    public Timestamp getUpdated_at() {
+    public String getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(Timestamp updated_at) {
+    public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
 

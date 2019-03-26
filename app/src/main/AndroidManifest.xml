@@ -23,7 +23,8 @@
         android:hardwareAccelerated="true"
         tools:ignore="GoogleAppIndexingWarning"
         android:name="diabetes.aclass.base.NetworkController"
-        android:usesCleartextTraffic="true" >
+        android:usesCleartextTraffic="true"
+        >
 
         <activity
             android:name=".LoginActivity"
@@ -61,6 +62,11 @@
         <activity
             android:name=".ResetPassword_Activity"
             android:label="Reset Password" />
+        <activity
+            android:name=".HistoryPageActivity"
+            android:label="History" />
+
+
     </application>
 
 </manifest>
