@@ -21,7 +21,8 @@
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true"
         tools:ignore="GoogleAppIndexingWarning"
-        android:name="diabetes.aclass.base.NetworkController">
+        android:name="diabetes.aclass.base.NetworkController"
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name=".LoginActivity"
