@@ -14,10 +14,6 @@ import java.util.List;
 
 import diabetes.aclass.model.MeasurementEntity;
 
-/**
- * Created by Belal on 10/18/2017.
- */
-
 public class MeasureAdapter extends RecyclerView.Adapter<MeasureAdapter.MeasureViewHolder> {
 
 

@@ -3,7 +3,9 @@ package diabetes.aclass.diabetes;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -41,6 +43,7 @@ import java.util.List;
 
 import diabetes.aclass.dagger.component.DataJsonCallback;
 import diabetes.aclass.model.MeasurementEntity;
+import diabetes.aclass.model.UserEntity;
 import diabetes.aclass.presenter.PresenterImpl;
 
 /**
@@ -48,7 +51,8 @@ import diabetes.aclass.presenter.PresenterImpl;
  */
 public class HistoryPageActivity extends AppCompatActivity {
 
-    private static final String URL_MEASUREMENT = "http://192.168.1.73/api/v1/measurements";
+    private static final String URL_MEASUREMENT = "http://192.168.1.73/api/v1/measurements?user_id=";
+
 
     //a list to store all the products
     List<MeasurementEntity> measureList;
@@ -72,6 +76,7 @@ public class HistoryPageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historypage_activity);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -130,9 +135,14 @@ public class HistoryPageActivity extends AppCompatActivity {
          * Then we have a Response Listener and a Error Listener
          * In response listener we will get the JSON response as a String
          * */
-
+     //   LoginActivity lg ;
+     //  UserEntity logged_user = lg.getlogged_user();
+        String complete_url;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String ID = preferences.getString("ID", "DEFAULT");
+        complete_url = URL_MEASUREMENT + ID;
         mainPresenter = new PresenterImpl();
-        mainPresenter.fetchData(URL_MEASUREMENT, new DataJsonCallback() {
+        mainPresenter.fetchData(complete_url, new DataJsonCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 try {
