@@ -58,6 +58,8 @@ public class HistoryPageActivity extends AppCompatActivity {
 
     //a list to store all the products
     List<MeasurementEntity> measureList;
+    MeasureAdapter adapter ;
+    Boolean adapterInitialized = false;
 
     RecyclerView recyclerView;
 
@@ -89,8 +91,9 @@ public class HistoryPageActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        loadProducts();
+
         measureList = new ArrayList<>();
+
 
         //set the date box value with today date
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -124,9 +127,30 @@ public class HistoryPageActivity extends AppCompatActivity {
         updateDisplay(dateFromTv, toDate);
         updateDisplay(dateToTv, toDate);
 
+        final Button button = (Button) findViewById(R.id.search_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                measureList.clear(); // clear list
+                if(adapterInitialized){
+                adapter.notifyDataSetChanged();}
+                loadProducts(fromDate,toDate);
+                       }
+        });
+    //    loadProducts(fromDate,toDate);
+
     }
 
-    private void loadProducts() {
+    private void loadProducts(Calendar from, Calendar to) {
+
+        final int to_day = toDate.get(Calendar.DAY_OF_MONTH);
+        final int to_month = toDate.get(Calendar.MONTH);
+        final int to_year= toDate.get(Calendar.YEAR) ;
+        final int from_day= fromDate.get(Calendar.DAY_OF_MONTH);
+        final int from_month= fromDate.get(Calendar.MONTH);
+        final int from_year= fromDate.get(Calendar.YEAR) ;
+
+        final Date from_date = new Date(from_year,from_month,from_day);
+        final Date to_date = new Date(to_year,to_month,to_day);
 
         /*
          * Creating a String Request
@@ -148,14 +172,30 @@ public class HistoryPageActivity extends AppCompatActivity {
                 try {
                     JSONArray array = response.getJSONArray("measurements");
                     for (int i = 0; i < array.length(); i++) {
+                        MeasurementEntity puppetME;
+                        Date puppetDATE;
                         JSONObject measure = array.getJSONObject(i);
-                        measureList.add(new MeasurementEntity(
-                                measure.getInt("patient_id"),
+                        puppetME = new MeasurementEntity(measure.getInt("patient_id"),
                                 measure.getInt("value"),
-                                measure.getString("created_at")));
+                                measure.getString("created_at"));
+                        puppetDATE = new Date(puppetME.getYear(),puppetME.getMonth(),puppetME.getDay());
+
+                        if((!puppetDATE.before(from_date)) && (!puppetDATE.after(to_date))) {
+  //                         if (to_year==puppetME.getYear()) {
+  //                              if (to_day >= puppetME.getDay() && puppetME.getDay() >= from_day) {
+
+                                    measureList.add(new MeasurementEntity(
+                                            measure.getInt("patient_id"),
+                                            measure.getInt("value"),
+                                            measure.getString("created_at")));
+                            adapter = new MeasureAdapter(HistoryPageActivity.this, measureList);
+                            if(!adapterInitialized) adapterInitialized = true;
+                            recyclerView.setAdapter(adapter);
+ //                              }
+ //                           }
+                        }
                     }
-                    MeasureAdapter adapter = new MeasureAdapter(HistoryPageActivity.this, measureList);
-                    recyclerView.setAdapter(adapter);
+
                 } catch (JsonIOException | JSONException e) {
                     Log.e("", e.getMessage(), e);
                 }

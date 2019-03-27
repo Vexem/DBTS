@@ -38,7 +38,7 @@ public class MeasurementEntity {
     public MeasurementEntity(int patient_id, int value, String created_at){
     this.id = patient_id;
     this.value = value;
-    this.created_atDate = "Date: " + created_at.substring(0,10);
+    this.created_atDate = created_at.substring(0,10);
     this.created_atTime = "at: " + created_at.substring(11,19);
 
     }
@@ -77,9 +77,20 @@ public class MeasurementEntity {
         return created_atTime;
     }
 
-  /*  public void setCreated_at(String created_at) {
-        this.created_at = created_at;
-    }*/
+    public int getYear(){
+        return Integer.parseInt(created_atDate.substring(0,4));
+    }
+    public int getMonth(){
+        return Integer.parseInt(created_atDate.substring(5,7))-1;
+    }
+    public int getDay(){
+        return Integer.parseInt(created_atDate.substring(8,10));
+    }
+    public String getDate(){
+        return getDay()+"/"+getMonth()+"/"+getYear();
+    }
+
+
 
     public String getUpdated_at() {
         return updated_at;

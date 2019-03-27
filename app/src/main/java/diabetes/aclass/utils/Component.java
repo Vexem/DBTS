@@ -2,7 +2,7 @@ package diabetes.aclass.utils;
 
 public class Component {
 //    public static final String API_BASE = "http://192.168.1.73/api/v1/";
-    public static final String API_BASE = "http://192.168.50.98";
+    public static final String API_BASE = "http://192.168.1.73";
 
     public static final String API_USERS_EP = "users";
     public static final String API_MEASUREMENTS_EP = "measurements";
