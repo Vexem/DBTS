@@ -35,7 +35,7 @@ public class LoginActivity extends Activity {
     private SignInButton googleSignInButton;
     PresenterImpl mainPresenter ;
     public static final String GOOGLE_ACCOUNT = "google_account";
-    private static final String API_URL = API_BASE + "users";
+    private static final String API_URL = API_BASE + "/users";
     private int RC_SIGN_IN = 0;
     public UserEntity logged_user;
 

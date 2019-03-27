@@ -137,7 +137,6 @@ public class HistoryPageActivity extends AppCompatActivity {
          * */
      //   LoginActivity lg ;
      //  UserEntity logged_user = lg.getlogged_user();
-        Intent new_intent=new Intent(this,LoginActivity.class);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String ID = preferences.getString("ID", "DEF");
