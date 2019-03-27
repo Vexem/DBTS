@@ -18,13 +18,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 import org.json.JSONObject;
-import org.modelmapper.ModelMapper;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import diabetes.aclass.dagger.component.DataJsonCallback;
-import diabetes.aclass.dagger.component.DataStringCallback;
 import diabetes.aclass.model.UserEntity;
 import diabetes.aclass.presenter.PresenterImpl;
 
@@ -113,30 +108,13 @@ public class LoginActivity extends Activity {
                     logged_user.setLast_name(account.getFamilyName());
                     logged_user.setEmail(account.getEmail());
                     Log.d("account", account.toString());
-                    saveData(logged_user);
                     store_logged_user(logged_user);
-
-
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-    }
-    private void saveData(final UserEntity userEntity){
-        mainPresenter = new PresenterImpl();
-        mainPresenter.saveData(API_URL, new DataStringCallback() {
-            @Override
-            public Map<String, String> onPostSucces(Map<String, String> response) {
-                Map<String, String> params = new HashMap<String, String>();
-                ModelMapper modelMapper = new ModelMapper();
-                modelMapper.map(userEntity, params);
-
-                return params;
-
-            }
-        });
     }
 
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {

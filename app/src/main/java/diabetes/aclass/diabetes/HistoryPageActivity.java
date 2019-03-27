@@ -46,12 +46,14 @@ import diabetes.aclass.model.MeasurementEntity;
 import diabetes.aclass.model.UserEntity;
 import diabetes.aclass.presenter.PresenterImpl;
 
+import static diabetes.aclass.utils.Component.API_BASE;
+
 /**
  * A login screen that offers login via email/password.
  */
 public class HistoryPageActivity extends AppCompatActivity {
 
-    private static final String URL_MEASUREMENT = "http://192.168.1.73/api/v1/measurements/getmeasurementbyuid?patient_id=";
+    private static final String URL_MEASUREMENT = API_BASE +"/measurements/getbyuid?patient_id=";
 
 
     //a list to store all the products
@@ -71,7 +73,7 @@ public class HistoryPageActivity extends AppCompatActivity {
     private TextView activeDateDisplay;
     private Calendar activeDate;
     private PresenterImpl mainPresenter ;
-
+    private  String complete_url;
     static final int DATE_DIALOG_ID = 0;
 
     @Override
@@ -87,10 +89,8 @@ public class HistoryPageActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-        measureList = new ArrayList<>();
         loadProducts();
-
+        measureList = new ArrayList<>();
 
         //set the date box value with today date
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -121,9 +121,9 @@ public class HistoryPageActivity extends AppCompatActivity {
                 showDateDialog(dateToTv, toDate);
             }
         });
-
         updateDisplay(dateFromTv, toDate);
         updateDisplay(dateToTv, toDate);
+
     }
 
     private void loadProducts() {
@@ -138,7 +138,7 @@ public class HistoryPageActivity extends AppCompatActivity {
      //   LoginActivity lg ;
      //  UserEntity logged_user = lg.getlogged_user();
         Intent new_intent=new Intent(this,LoginActivity.class);
-        String complete_url;
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String ID = preferences.getString("ID", "DEF");
         complete_url = URL_MEASUREMENT + ID;

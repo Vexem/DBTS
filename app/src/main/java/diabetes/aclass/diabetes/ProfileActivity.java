@@ -42,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity implements IprofileView {
     PresenterImpl mainPresenter ;
     public RequestQueue mRequestQueue;
     public Context context;
-    private static final String API_URL = API_BASE + "users";
+    private static final String API_URL = API_BASE + "/users";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
