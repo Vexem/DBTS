@@ -2,7 +2,9 @@ package diabetes.aclass.diabetes;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -40,6 +42,7 @@ public class LoginActivity extends Activity {
     public static final String GOOGLE_ACCOUNT = "google_account";
     private static final String API_URL = API_BASE + "users";
     private int RC_SIGN_IN = 0;
+    public UserEntity logged_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,13 +107,16 @@ public class LoginActivity extends Activity {
             mainPresenter.fetchData(API_URL, new DataJsonCallback() {
                 @Override
                 public void onSuccess(JSONObject response) {
-                    UserEntity user = new UserEntity();
-                    user.setId(account.getId());
-                    user.setFirst_name(account.getDisplayName());
-                    user.setEmail(account.getEmail());
-                    user.setOauth_token(account.getIdToken());
+                    logged_user = new UserEntity();
+                    logged_user.setId(account.getId());
+                    logged_user.setFirst_name(account.getGivenName());
+                    logged_user.setLast_name(account.getFamilyName());
+                    logged_user.setEmail(account.getEmail());
                     Log.d("account", account.toString());
-                    saveData(user);
+                    saveData(logged_user);
+                    store_logged_user(logged_user);
+
+
                 }
             });
         } catch (Exception e) {
@@ -139,5 +145,12 @@ public class LoginActivity extends Activity {
         startActivity(intent);
         finish();
     }
+    
+    public void store_logged_user(UserEntity logged_user){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("ID",logged_user.getId());
+        editor.apply();    }
 
 }

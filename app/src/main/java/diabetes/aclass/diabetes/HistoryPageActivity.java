@@ -3,7 +3,9 @@ package diabetes.aclass.diabetes;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -46,6 +48,7 @@ import java.util.List;
 
 import diabetes.aclass.dagger.component.DataJsonCallback;
 import diabetes.aclass.model.MeasurementEntity;
+import diabetes.aclass.model.UserEntity;
 import diabetes.aclass.presenter.PresenterImpl;
 
 /**
@@ -53,7 +56,8 @@ import diabetes.aclass.presenter.PresenterImpl;
  */
 public class HistoryPageActivity extends AppCompatActivity {
 
-    private static final String URL_MEASUREMENT = "http://192.168.1.73/api/v1/measurements";
+    private static final String URL_MEASUREMENT = "http://192.168.1.73/api/v1/measurements/getmeasurementbyuid?patient_id=";
+
 
     //a list to store all the products
     List<MeasurementEntity> measureList;
@@ -77,6 +81,7 @@ public class HistoryPageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historypage_activity);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -135,9 +140,15 @@ public class HistoryPageActivity extends AppCompatActivity {
          * Then we have a Response Listener and a Error Listener
          * In response listener we will get the JSON response as a String
          * */
-
+     //   LoginActivity lg ;
+     //  UserEntity logged_user = lg.getlogged_user();
+        Intent new_intent=new Intent(this,LoginActivity.class);
+        String complete_url;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String ID = preferences.getString("ID", "DEF");
+        complete_url = URL_MEASUREMENT + ID;
         mainPresenter = new PresenterImpl();
-        mainPresenter.fetchData(URL_MEASUREMENT, new DataJsonCallback() {
+        mainPresenter.fetchData(complete_url, new DataJsonCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 try {
@@ -157,45 +168,6 @@ public class HistoryPageActivity extends AppCompatActivity {
 
             }
         });
-        //adding our stringrequest to queue
-      //  Volley.newRequestQueue(this).add(stringRequest);
-
-    /*    StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_MEASUREMENT,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
-
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
-
-                                //getting measure object from json array
-                                JSONObject measure = array.getJSONObject(i);
-
-                                //adding the measure to measure list
-                                measureList.add(new MeasurementEntity(
-                                        measure.getInt("patient_id"),
-                                        measure.getInt("value"),
-                                        measure.getString("created_at")));
-                            }
-
-                            //creating adapter object and setting it to recyclerview
-                            MeasureAdapter adapter = new MeasureAdapter(HistoryPageActivity.this, measureList);
-                            recyclerView.setAdapter(adapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });  */
-
     }
 
     private void updateDisplay(TextView dateDisplay, Calendar date) {

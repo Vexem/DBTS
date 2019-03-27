@@ -14,10 +14,6 @@ import java.util.List;
 
 import diabetes.aclass.model.MeasurementEntity;
 
-/**
- * Created by Belal on 10/18/2017.
- */
-
 public class MeasureAdapter extends RecyclerView.Adapter<MeasureAdapter.MeasureViewHolder> {
 
 
@@ -41,10 +37,10 @@ public class MeasureAdapter extends RecyclerView.Adapter<MeasureAdapter.MeasureV
         MeasurementEntity measure = MeasureList.get(position);
 
         //loading the image
-        holder.textViewTitle.setText(measure.getName());
-        //holder.textViewShortDesc.setText(measure.getShortdesc());
-        holder.textViewRating.setText(String.valueOf(measure.getId()));
-        holder.textViewPrice.setText(String.valueOf(measure.getUpdated_at()));
+        holder.textViewTitle.setText(String.valueOf(measure.getCreated_atDate()));
+        holder.textViewShortDesc.setText(String.valueOf(measure.getCreated_atTime()));
+        holder.textViewRating.setText(String.valueOf(measure.getValue()));
+        holder.textViewPrice.setText(String.valueOf(measure.getId()));
     }
 
     @Override
@@ -64,7 +60,7 @@ public class MeasureAdapter extends RecyclerView.Adapter<MeasureAdapter.MeasureV
             textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
             textViewRating = itemView.findViewById(R.id.textViewRating);
             textViewPrice = itemView.findViewById(R.id.textViewPrice);
-            imageView = itemView.findViewById(R.id.imageView);
+           // imageView = itemView.findViewById(R.id.imageView);
         }
     }
 }
