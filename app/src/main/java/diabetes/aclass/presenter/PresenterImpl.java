@@ -6,12 +6,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
 import diabetes.aclass.base.NetworkController;
 import diabetes.aclass.dagger.component.DataJsonCallback;
+
 
 public class PresenterImpl {
 
