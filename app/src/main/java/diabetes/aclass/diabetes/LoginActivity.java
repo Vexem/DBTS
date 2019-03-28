@@ -152,6 +152,9 @@ public class LoginActivity extends Activity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("ID",logged_user.getId());
+        editor.putString("MAIL",logged_user.getEmail());
+        editor.putString("NAME",logged_user.getFirst_name());
+        editor.putString("SURNAME",logged_user.getLast_name());
         editor.apply();    }
 
 }

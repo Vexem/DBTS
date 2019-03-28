@@ -31,21 +31,15 @@ public class MeasurementEntity {
 
     @SerializedName("created_at")
     @Expose
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private String created_atDate;
+    private String created_atTime;
+    private String updated_at;
 
     public MeasurementEntity(int patient_id, int value, String created_at){
-    this.id = patient_id;
-    this.value = value;
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-            Date parsedDate = dateFormat.parse(created_at);
-            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-            this.created_at = timestamp;
-        } catch(Exception e) { //this generic but you can control another types of exception
-            // look the origin of excption
-        }
-
+        this.id = patient_id;
+        this.value = value;
+        this.created_atDate = created_at.substring(0,10);
+        this.created_atTime = "at: " + created_at.substring(11,19);
 
     }
 
@@ -69,23 +63,40 @@ public class MeasurementEntity {
         return name;
     }
 
+    public int getValue(){ return value;}
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public String getCreated_atDate() {
+        return created_atDate;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public String getCreated_atTime() {
+        return created_atTime;
     }
 
-    public Timestamp getUpdated_at() {
+    public int getYear(){
+        return Integer.parseInt(created_atDate.substring(0,4));
+    }
+    public int getMonth(){
+        return Integer.parseInt(created_atDate.substring(5,7))-1;
+    }
+    public int getDay(){
+        return Integer.parseInt(created_atDate.substring(8,10));
+    }
+    public String getDate(){
+        return getDay()+"/"+getMonth()+"/"+getYear();
+    }
+
+
+
+    public String getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(Timestamp updated_at) {
+    public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
 

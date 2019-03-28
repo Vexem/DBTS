@@ -205,6 +205,12 @@
 
         </ScrollView>
 
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SEARCH" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recylcerView"
             android:layout_width="match_parent"
@@ -288,6 +294,8 @@
 
         </LinearLayout>
     </LinearLayout>
+
+
 
 </RelativeLayout>
 

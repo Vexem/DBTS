@@ -37,7 +37,7 @@ public class MeasureAdapter extends RecyclerView.Adapter<MeasureAdapter.MeasureV
         MeasurementEntity measure = MeasureList.get(position);
 
         //loading the image
-        holder.textViewTitle.setText(String.valueOf(measure.getCreated_atDate()));
+        holder.textViewTitle.setText(String.valueOf(measure.getDate()));
         holder.textViewShortDesc.setText(String.valueOf(measure.getCreated_atTime()));
         holder.textViewRating.setText(String.valueOf(measure.getValue()));
         holder.textViewPrice.setText(String.valueOf(measure.getId()));
