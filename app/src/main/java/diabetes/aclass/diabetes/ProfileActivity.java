@@ -28,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Map;
 
 import diabetes.aclass.dagger.component.DataJsonCallback;
 import diabetes.aclass.model.UserEntity;
@@ -60,7 +61,10 @@ public class ProfileActivity extends AppCompatActivity implements IprofileView {
                     JSONArray users = response.getJSONArray("users");
                     for (int i = 0; i < users.length(); i++) {
                         JSONObject jsonObject = users.getJSONObject(i);
-
+                        Gson gson = new Gson();
+                        UserEntity u = gson.fromJson(jsonObject.toString(), UserEntity.class);
+                        firstnametext.setText(u.getFirst_name());
+                        lastName.setText(u.getLast_name());
                     }
                 } catch (JsonIOException | JSONException e) {
                     Log.e("", e.getMessage(), e);
