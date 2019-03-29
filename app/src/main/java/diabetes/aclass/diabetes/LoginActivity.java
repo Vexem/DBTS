@@ -98,7 +98,7 @@ public class LoginActivity extends Activity {
 
 
     private void handleSignInResult(final GoogleSignInAccount account) {
-        Intent myIntent = new Intent(getApplicationContext(), HomePageActivity.class);
+        Intent myIntent = new Intent(getApplicationContext(), InsertMedicActivity.class);
         loadData(account);
         startActivity(myIntent);
     }
@@ -116,7 +116,7 @@ public class LoginActivity extends Activity {
                     logged_user.setEmail(account.getEmail());
                     Log.d("account", account.toString());
                     store_logged_user(logged_user);
-                    saveUser(logged_user);
+             //      saveUser(logged_user);
                 }
             });
         } catch (Exception e) {
@@ -125,20 +125,6 @@ public class LoginActivity extends Activity {
 
     }
 
-    private void saveUser(UserEntity userEntity){
-        PostManagement pm = new PostManagement();
-
-          try {
-            String url = API_URL + "/saveuser";
-            Gson json = new Gson();
-            String postdata = json.toJson(userEntity);
-            pm.saveData(url, postdata);
-        } catch(Exception e){
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-    }
 
     private void onLoggedIn(GoogleSignInAccount googleSignInAccount) {
         Intent intent = new Intent(this, HomePageActivity.class);
@@ -155,6 +141,7 @@ public class LoginActivity extends Activity {
         editor.putString("MAIL",logged_user.getEmail());
         editor.putString("NAME",logged_user.getFirst_name());
         editor.putString("SURNAME",logged_user.getLast_name());
+
         editor.apply();    }
 
 }
