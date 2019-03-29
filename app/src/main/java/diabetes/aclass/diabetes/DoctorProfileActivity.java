@@ -1,27 +1,60 @@
 package diabetes.aclass.diabetes;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.JsonIOException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Date;
+
+import diabetes.aclass.dagger.component.DataJsonCallback;
+import diabetes.aclass.model.MeasurementEntity;
+import diabetes.aclass.model.MedicEntity;
+import diabetes.aclass.model.UserEntity;
+import diabetes.aclass.presenter.PresenterImpl;
+
+import static diabetes.aclass.utils.Component.API_BASE;
 
 public class DoctorProfileActivity extends AppCompatActivity {
+
+    private static final String URL_MEDIC = API_BASE +"/medics/getbyuid?medic_id=";
+    PresenterImpl mainPresenter ;
+     TextView name;
+     TextView email;
+     TextView hospital;
+    public MedicEntity assigned_medic;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.doctor_profile_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+          name =  (TextView) findViewById(R.id.firstname);
+          email =  (TextView) findViewById(R.id.email);
+          hospital =  (TextView) findViewById(R.id.clinic_hospital);
+        loadData();
     }
 
     @Override
@@ -73,6 +106,38 @@ public class DoctorProfileActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void loadData(){
+        try {
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = preferences.edit();
+            int MEDIC_ID = preferences.getInt("medic_id", -1);
+            mainPresenter = new PresenterImpl();
+            mainPresenter.fetchData(URL_MEDIC+MEDIC_ID, new DataJsonCallback() {
+                @Override
+                public void onSuccess(JSONObject response) {
+                    try {
+                        JSONArray array = response.getJSONArray("medics");
+                        assigned_medic = new MedicEntity();
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject medic = array.getJSONObject(i);
+                                name.setText(medic.getString("medic_name"));
+                                email.setText(medic.getString("medic_mail"));
+                                hospital.setText(medic.getString("medic_hospital"));
+                            }
+
+                    } catch (JsonIOException | JSONException e) {
+                        Log.e("", e.getMessage(), e);
+                    }
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void goToInsertActivity(View view) {
