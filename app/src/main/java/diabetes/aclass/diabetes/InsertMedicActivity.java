@@ -20,10 +20,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import diabetes.aclass.dagger.component.DataJsonCallback;
-import diabetes.aclass.model.MeasurementEntity;
 import diabetes.aclass.model.UserEntity;
 import diabetes.aclass.presenter.PostManagement;
 import diabetes.aclass.presenter.PresenterImpl;
@@ -33,33 +33,42 @@ import static diabetes.aclass.utils.Component.API_BASE;
 public class InsertMedicActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Spinner spinner;
-    private int medicID =-1;
+    private int spinner_index = -1;
     private static final String API_URL = API_BASE + "/users";
-    private static final String[] NAMES = {"Donald Duck", "Goofy", "Mickey Mouse","Scrooge McDuck"};
+    private static  String[] NAMES ;
     private PresenterImpl mainPresenter ;
+    private Map<String, Integer> map= new HashMap<>();
+    private int medic_id;
+    private ArrayAdapter<String> adapter;
 
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.insert_medic_layout);
-
+        mainPresenter = new PresenterImpl();
         spinner = (Spinner)findViewById(R.id.spinner1);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(InsertMedicActivity.this,
-                android.R.layout.simple_spinner_item, NAMES);
 
+
+        loadMedics();
+        adapter = new ArrayAdapter<String>(InsertMedicActivity.this,
+                android.R.layout.simple_spinner_item, NAMES);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-
         final Button button = (Button) findViewById(R.id.button1);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
 
-                if(medicID != -1){
+                if(spinner_index != -1){
+
+                    String res = NAMES[spinner_index];
+                    medic_id = map.get(res);
+
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(InsertMedicActivity.this);
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putInt("MEDIC_ID",medicID);
+
+                    editor.putInt("MEDIC_ID", medic_id);
                     UserEntity logged_user = new UserEntity();
 
                     logged_user.setId(preferences.getString("ID", "ID_DEF"));
@@ -67,7 +76,7 @@ public class InsertMedicActivity extends AppCompatActivity implements AdapterVie
                     logged_user.setLast_name(preferences.getString("ID", "LN_DEF"));
                     logged_user.setEmail(preferences.getString("ID", "EMAIL_DEF"));
                     logged_user.setMedic_id(preferences.getInt("MEDIC_ID", -1));
-
+                    editor.apply();
                     saveUser(logged_user);
 
                     Intent myIntent = new Intent(getApplicationContext(), HomePageActivity.class);
@@ -86,55 +95,37 @@ public class InsertMedicActivity extends AppCompatActivity implements AdapterVie
     @Override
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
 
-       this.medicID = position+1;
+       this.spinner_index = position;
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-       this.medicID = -1;
+       this.spinner_index = -1;
     }
 
     public void loadMedics(){
-        mainPresenter = new PresenterImpl();
-        mainPresenter.fetchData(complete_url, new DataJsonCallback() {
+
+        mainPresenter.fetchData(API_BASE+"/medics", new DataJsonCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 try {
-                    JSONArray array = response.getJSONArray("measurements");
+                    JSONArray array = response.getJSONArray("medics");
                     for (int i = 0; i < array.length(); i++) {
-                        MeasurementEntity puppetME;
-                        Date puppetDATE;
-                        JSONObject measure = array.getJSONObject(i);
-                        puppetME = new MeasurementEntity(measure.getInt("patient_id"),
-                                measure.getInt("value"),
-                                measure.getString("created_at"));
-                        puppetDATE = new Date(puppetME.getYear(),puppetME.getMonth(),puppetME.getDay());
+                        NAMES = new String[array.length()];
+                        JSONObject medic = array.getJSONObject(i);
+                        NAMES[i] = medic.getString("medic_name");
+                        map.put( medic.getString("medic_name"),medic.getInt("medic_id"));
 
-                        if((!puppetDATE.before(from_date)) && (!puppetDATE.after(to_date))) {
-                            //                         if (to_year==puppetME.getYear()) {
-                            //                              if (to_day >= puppetME.getDay() && puppetME.getDay() >= from_day) {
-
-                            measureList.add(new MeasurementEntity(
-                                    measure.getInt("patient_id"),
-                                    measure.getInt("value"),
-                                    measure.getString("created_at")));
-                            adapter = new MeasureAdapter(HistoryPageActivity.this, measureList);
-                            if(!adapterInitialized) adapterInitialized = true;
-                            recyclerView.setAdapter(adapter);
-                            //                              }
-                            //                           }
-                        }
                     }
+
 
                 } catch (JsonIOException | JSONException e) {
                     Log.e("", e.getMessage(), e);
                 }
 
+
             }
-        });
-
-
-
+         });
 
     }
 
