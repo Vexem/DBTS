@@ -2,7 +2,9 @@ package diabetes.aclass.diabetes;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -51,27 +54,15 @@ public class ProfileActivity extends AppCompatActivity implements IprofileView {
         context = getApplicationContext();
         setContentView(R.layout.profile_activity);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        final EditText firstnametext = findViewById(R.id.firstname);
-        final EditText lastName = findViewById(R.id.lastname);
-        mainPresenter = new PresenterImpl();
-        mainPresenter.fetchData(API_URL, new DataJsonCallback() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                try {
-                    JSONArray users = response.getJSONArray("users");
-                    for (int i = 0; i < users.length(); i++) {
-                        JSONObject jsonObject = users.getJSONObject(i);
-                        Gson gson = new Gson();
-                        UserEntity u = gson.fromJson(jsonObject.toString(), UserEntity.class);
-                        firstnametext.setText(u.getFirst_name());
-                        lastName.setText(u.getLast_name());
-                    }
-                } catch (JsonIOException | JSONException e) {
-                    Log.e("", e.getMessage(), e);
-                }
+        final TextView firstName = findViewById(R.id.firstname);
+        final TextView lastName = findViewById(R.id.lastname);
+        final TextView mail = findViewById(R.id.mail);
 
-            }
-        });
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        firstName.setText(preferences.getString("NAME","DEFAULT"));
+        lastName.setText(preferences.getString("SURNAME","DEFAULT"));
+        mail.setText(preferences.getString("MAIL","DEFAULT"));
+
         setSupportActionBar(toolbar);
 
     }

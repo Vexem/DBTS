@@ -36,6 +36,7 @@ public class InsertMedicActivity extends AppCompatActivity implements AdapterVie
     private int spinner_index = -1;
     private static final String API_URL = API_BASE + "/users";
     private static  String[] NAMES ;
+    private static  String[] NAMES2 = {"a","b","c"} ;
     private PresenterImpl mainPresenter ;
     private Map<String, Integer> map= new HashMap<>();
     private int medic_id;
@@ -49,14 +50,10 @@ public class InsertMedicActivity extends AppCompatActivity implements AdapterVie
         mainPresenter = new PresenterImpl();
         spinner = (Spinner)findViewById(R.id.spinner1);
 
-
         loadMedics();
-        adapter = new ArrayAdapter<String>(InsertMedicActivity.this,
-                android.R.layout.simple_spinner_item, NAMES);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-        final Button button = (Button) findViewById(R.id.button1);
+
+      final Button button = (Button) findViewById(R.id.button1);
+
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
 
@@ -69,14 +66,15 @@ public class InsertMedicActivity extends AppCompatActivity implements AdapterVie
                     SharedPreferences.Editor editor = preferences.edit();
 
                     editor.putInt("MEDIC_ID", medic_id);
+                    editor.apply();
                     UserEntity logged_user = new UserEntity();
 
                     logged_user.setId(preferences.getString("ID", "ID_DEF"));
-                    logged_user.setFirst_name(preferences.getString("ID", "FN_DEF"));
-                    logged_user.setLast_name(preferences.getString("ID", "LN_DEF"));
-                    logged_user.setEmail(preferences.getString("ID", "EMAIL_DEF"));
+                    logged_user.setFirst_name(preferences.getString("NAME", "FN_DEF"));
+                    logged_user.setLast_name(preferences.getString("SURNAME", "LN_DEF"));
+                    logged_user.setEmail(preferences.getString("MAIL", "EMAIL_DEF"));
                     logged_user.setMedic_id(preferences.getInt("MEDIC_ID", -1));
-                    editor.apply();
+
                     saveUser(logged_user);
 
                     Intent myIntent = new Intent(getApplicationContext(), HomePageActivity.class);
@@ -110,14 +108,18 @@ public class InsertMedicActivity extends AppCompatActivity implements AdapterVie
             public void onSuccess(JSONObject response) {
                 try {
                     JSONArray array = response.getJSONArray("medics");
+                    NAMES = new String[array.length()];
                     for (int i = 0; i < array.length(); i++) {
-                        NAMES = new String[array.length()];
                         JSONObject medic = array.getJSONObject(i);
                         NAMES[i] = medic.getString("medic_name");
                         map.put( medic.getString("medic_name"),medic.getInt("medic_id"));
 
                     }
-
+                    adapter = new ArrayAdapter<String>(InsertMedicActivity.this,
+                            android.R.layout.simple_spinner_item, NAMES);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(adapter);
+                    spinner.setOnItemSelectedListener(InsertMedicActivity.this);
 
                 } catch (JsonIOException | JSONException e) {
                     Log.e("", e.getMessage(), e);

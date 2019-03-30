@@ -63,6 +63,9 @@
         <activity
             android:name=".ResetPassword_Activity"
             android:label="Reset Password" />
+        <activity
+            android:name=".InsertMedicActivity"
+            android:label="Insert Medic Name"/>
     </application>
 
 </manifest>
