@@ -38,7 +38,7 @@ public class InsertMedicActivity extends AppCompatActivity implements AdapterVie
     private int spinner_index = -1;
     private static  String[] NAMES ;
     private static  String[] NAMES2 = {"a","b","c"} ;
-    private PresenterImpl mainPresenter ;
+    private PresenterImpl mainPresenter;
     private Map<String, Integer> map= new HashMap<>();
     private int medic_id;
     private ArrayAdapter<String> adapter;
@@ -53,7 +53,7 @@ public class InsertMedicActivity extends AppCompatActivity implements AdapterVie
 
         loadMedics();
 
-      final Button button = (Button) findViewById(R.id.button1);
+        final Button button = (Button) findViewById(R.id.button1);
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
@@ -125,11 +125,8 @@ public class InsertMedicActivity extends AppCompatActivity implements AdapterVie
                 } catch (JsonIOException | JSONException e) {
                     Log.e("", e.getMessage(), e);
                 }
-
-
             }
          });
-
     }
 
     private void saveUser(UserEntity userEntity){
