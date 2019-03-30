@@ -54,35 +54,32 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/profile_img_margin_bottom" />
 
-                <EditText
+                <TextView
                     android:id="@+id/firstname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:hint="First name"
-                    android:inputType="textPersonName"
                     android:textSize="@dimen/profile_data"
                     android:textStyle="normal"
                     android:visibility="visible" />
 
-                <EditText
+                <TextView
                     android:id="@+id/lastname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:hint="Last name"
-                    android:inputType="textPersonName"
                     android:textSize="@dimen/profile_data"
                     android:textStyle="normal"
                     android:visibility="visible" />
 
-                <EditText
-                    android:id="@+id/date_of_birth"
+                <TextView
+                    android:id="@+id/mail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:hint="Date of birth"
-                    android:inputType="date"
+                    android:hint="EMAIL"
                     android:textSize="@dimen/profile_data"
                     android:textStyle="normal"
                     android:visibility="visible" />
@@ -96,29 +93,6 @@
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp">
-
-
-                    <ImageView
-                        android:layout_width="@dimen/bluetooth_img_height"
-                        android:layout_height="@dimen/bluetooth_img_height"
-                        android:src="@drawable/bluetooth_img"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/bluetooth_img_height"
-                        android:text="Connect Device"
-                        android:textSize="18sp"/>
-
-                </LinearLayout>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="change password"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:textSize="14sp"
-                    android:background="@android:color/transparent"
                     android:layout_marginBottom="20dp"/>
 
             </LinearLayout>

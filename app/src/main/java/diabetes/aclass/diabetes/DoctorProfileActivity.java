@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -39,10 +40,10 @@ public class DoctorProfileActivity extends AppCompatActivity {
 
     private static final String URL_MEDIC = API_BASE +"/medics/getbyuid?medic_id=";
     PresenterImpl mainPresenter ;
-     TextView name;
-     TextView email;
-     TextView hospital;
-    public MedicEntity assigned_medic;
+     private TextView name;
+     private TextView email;
+     private TextView hospital;
+     public MedicEntity assigned_medic;
 
 
     @Override
@@ -51,9 +52,12 @@ public class DoctorProfileActivity extends AppCompatActivity {
         setContentView(R.layout.doctor_profile_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-          name =  (TextView) findViewById(R.id.firstname);
-          email =  (TextView) findViewById(R.id.email);
-          hospital =  (TextView) findViewById(R.id.clinic_hospital);
+          name =   findViewById(R.id.doc_name);
+          email =  findViewById(R.id.doc_email);
+          hospital =  findViewById(R.id.clinic_hospital);
+        name.setText("serverNotResponding");
+        email.setText("serverNotResponding");
+        hospital.setText("serverNotResponding");
         loadData();
     }
 
@@ -113,7 +117,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
         try {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = preferences.edit();
-            int MEDIC_ID = preferences.getInt("medic_id", -1);
+            int MEDIC_ID = preferences.getInt("MEDIC_ID", -1);
             mainPresenter = new PresenterImpl();
             mainPresenter.fetchData(URL_MEDIC+MEDIC_ID, new DataJsonCallback() {
                 @Override

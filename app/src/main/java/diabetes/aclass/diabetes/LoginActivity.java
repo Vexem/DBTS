@@ -104,24 +104,14 @@ public class LoginActivity extends Activity {
     }
 
     private void loadData(final GoogleSignInAccount account){
-        try {
-            mainPresenter = new PresenterImpl();
-            mainPresenter.fetchData(API_URL, new DataJsonCallback() {
-                @Override
-                public void onSuccess(JSONObject response) {
-                    logged_user = new UserEntity();
-                    logged_user.setId(account.getId());
-                    logged_user.setFirst_name(account.getGivenName());
-                    logged_user.setLast_name(account.getFamilyName());
-                    logged_user.setEmail(account.getEmail());
-                    Log.d("account", account.toString());
-                    store_logged_user(logged_user);
-             //      saveUser(logged_user);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        logged_user = new UserEntity();
+        logged_user.setId(account.getId());
+        logged_user.setFirst_name(account.getGivenName());
+        logged_user.setLast_name(account.getFamilyName());
+        logged_user.setEmail(account.getEmail());
+        Log.d("account", account.toString());
+        store_logged_user(logged_user);
 
     }
 

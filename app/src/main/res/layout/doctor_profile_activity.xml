@@ -54,79 +54,32 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/profile_img_margin_bottom" />
 
-                <EditText
-                    android:id="@+id/firstname"
+                <TextView
+                    android:id="@+id/doc_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:hint="First name"
-                    android:inputType="textPersonName"
+                    android:hint="Name"
                     android:textSize="@dimen/profile_data"
                     android:textStyle="normal"
+                    android:layout_marginTop="5dp"
                     android:visibility="visible" />
 
-                <EditText
-                    android:id="@+id/lastname"
+                <TextView
+                    android:id="@+id/doc_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:hint="Last name"
-                    android:inputType="textPersonName"
-                    android:textSize="@dimen/profile_data"
-                    android:textStyle="normal"
-                    android:visibility="visible" />
-
-                <EditText
-                    android:id="@+id/email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:hint="e-mail"
-                    android:inputType="textEmailAddress"
+                    android:layout_marginTop="5dp"
                     android:textSize="@dimen/profile_data"
                     android:textStyle="normal"
                     android:visibility="visible" />
 
-                <EditText
-                    android:id="@+id/telephone_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:hint="Telephone number"
-                    android:inputType="phone"
-                    android:textSize="@dimen/profile_data"
-                    android:textStyle="normal"
-                    android:visibility="visible" />
-
-                <EditText
-                    android:id="@+id/address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:hint="Address"
-                    android:inputType="text"
-                    android:textSize="@dimen/profile_data"
-                    android:textStyle="normal"
-                    android:visibility="visible" />
-
-                <EditText
-                    android:id="@+id/specialization"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:hint="Specialization"
-                    android:inputType="text"
-                    android:textSize="@dimen/profile_data"
-                    android:textStyle="normal"
-                    android:visibility="visible" />
-
-                <EditText
+                <TextView
                     android:id="@+id/clinic_hospital"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:hint="Clinic/Hospital"
-                    android:inputType="text"
+                    android:layout_marginTop="5dp"
                     android:textSize="@dimen/profile_data"
                     android:textStyle="normal"
                     android:visibility="visible" />

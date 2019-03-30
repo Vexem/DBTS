@@ -9,7 +9,7 @@
     <dimen name="bluetooth_img_height">30dp</dimen>
 
     <!-- text size -->
-    <dimen name="profile_data">18sp</dimen>
+    <dimen name="profile_data">25sp</dimen>
     <dimen name="login_title">24sp</dimen>
     <dimen name="help_text">14sp</dimen>
     <dimen name="table_header">16sp</dimen>
