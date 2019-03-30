@@ -2,9 +2,6 @@ package diabetes.aclass.presenter;
 
 import android.util.Log;
 
-
-import org.json.JSONObject;
-
 import java.io.IOException;
 
 import okhttp3.Call;

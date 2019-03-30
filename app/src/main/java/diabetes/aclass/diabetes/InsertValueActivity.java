@@ -21,7 +21,6 @@ import com.google.android.gms.tasks.Task;
 
 import diabetes.aclass.presenter.PresenterImpl;
 
-import static diabetes.aclass.utils.Component.API_BASE;
 
 public class InsertValueActivity extends AppCompatActivity {
     private EditText b_b_value;
@@ -31,7 +30,6 @@ public class InsertValueActivity extends AppCompatActivity {
     private EditText d_b_value;
     private EditText d_a_value;
     private PresenterImpl mainPresenter;
-    private static final String API_URL = API_BASE + "measurements";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

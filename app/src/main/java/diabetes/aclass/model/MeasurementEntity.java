@@ -7,10 +7,6 @@ import android.support.annotation.NonNull;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 @Entity(tableName = "measurements")
 public class MeasurementEntity {
     private int idCounter = 0;

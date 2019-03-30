@@ -8,11 +8,9 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,17 +21,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
-import java.util.Map;
 
-import diabetes.aclass.dagger.component.DataJsonCallback;
 import diabetes.aclass.model.UserEntity;
 import diabetes.aclass.presenter.PresenterImpl;
 import diabetes.aclass.view.IprofileView;
@@ -43,11 +33,7 @@ import static diabetes.aclass.utils.Component.API_BASE;
 
 public class ProfileActivity extends AppCompatActivity implements IprofileView {
 
-    PresenterImpl mainPresenter ;
-    public RequestQueue mRequestQueue;
     public Context context;
-    private static final String API_URL = API_BASE + "/users";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

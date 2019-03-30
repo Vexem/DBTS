@@ -16,18 +16,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.modelmapper.ModelMapper;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import diabetes.aclass.dagger.component.DataJsonCallback;
 import diabetes.aclass.model.UserEntity;
-import diabetes.aclass.presenter.PostManagement;
 import diabetes.aclass.presenter.PresenterImpl;
 
 import static diabetes.aclass.utils.Component.API_BASE;
@@ -39,10 +29,7 @@ public class LoginActivity extends Activity {
 
     private static final String TAG = "AndroidClarified";
     private GoogleSignInClient mGoogleSignInClient;
-    private SignInButton googleSignInButton;
-    PresenterImpl mainPresenter ;
     public static final String GOOGLE_ACCOUNT = "google_account";
-    private static final String API_URL = API_BASE + "/users";
     private int RC_SIGN_IN = 0;
     public UserEntity logged_user;
 
@@ -57,7 +44,7 @@ public class LoginActivity extends Activity {
 
         } else {
             setContentView(R.layout.activity_login);
-            googleSignInButton = findViewById(R.id.sign_in_button);
+            SignInButton googleSignInButton = findViewById(R.id.sign_in_button);
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
                     .build();
@@ -132,6 +119,7 @@ public class LoginActivity extends Activity {
         editor.putString("NAME",logged_user.getFirst_name());
         editor.putString("SURNAME",logged_user.getLast_name());
 
-        editor.apply();    }
+        editor.apply();
+    }
 
 }

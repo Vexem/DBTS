@@ -29,12 +29,13 @@ import diabetes.aclass.presenter.PostManagement;
 import diabetes.aclass.presenter.PresenterImpl;
 
 import static diabetes.aclass.utils.Component.API_BASE;
+import static diabetes.aclass.utils.Component.API_GET_MEDICS;
+import static diabetes.aclass.utils.Component.API_POST_USER;
 
 public class InsertMedicActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Spinner spinner;
     private int spinner_index = -1;
-    private static final String API_URL = API_BASE + "/users";
     private static  String[] NAMES ;
     private static  String[] NAMES2 = {"a","b","c"} ;
     private PresenterImpl mainPresenter ;
@@ -103,7 +104,7 @@ public class InsertMedicActivity extends AppCompatActivity implements AdapterVie
 
     public void loadMedics(){
 
-        mainPresenter.fetchData(API_BASE+"/medics", new DataJsonCallback() {
+        mainPresenter.fetchData(API_GET_MEDICS, new DataJsonCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 try {
@@ -135,7 +136,7 @@ public class InsertMedicActivity extends AppCompatActivity implements AdapterVie
         PostManagement pm = new PostManagement();
 
         try {
-            String url = API_URL + "/saveuser";
+            String url = API_POST_USER;
             Gson json = new Gson();
             String postdata = json.toJson(userEntity);
             pm.saveData(url, postdata);
