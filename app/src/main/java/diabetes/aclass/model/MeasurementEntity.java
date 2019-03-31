@@ -31,6 +31,10 @@ public class MeasurementEntity {
     private String created_atTime;
     private String updated_at;
 
+    @SerializedName("when_is_inserted")
+    @Expose
+    private String when_inserted;
+
     public MeasurementEntity(int patient_id, int value, String created_at){
         this.id = patient_id;
         this.value = value;
@@ -86,7 +90,25 @@ public class MeasurementEntity {
         return getDay()+"/"+getMonth()+"/"+getYear();
     }
 
+    public void setValue(int value) {
+        this.value = value;
+    }
 
+    public void setCreated_atDate(String created_atDate) {
+        this.created_atDate = created_atDate;
+    }
+
+    public void setCreated_atTime(String created_atTime) {
+        this.created_atTime = created_atTime;
+    }
+
+    public String getWhen_inserted() {
+        return when_inserted;
+    }
+
+    public void setWhen_inserted(String when_inserted) {
+        this.when_inserted = when_inserted;
+    }
 
     public String getUpdated_at() {
         return updated_at;
