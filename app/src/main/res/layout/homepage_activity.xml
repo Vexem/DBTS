@@ -109,16 +109,6 @@
                         android:enabled="false"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/bluetooth"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:onClick="goToSensorActivity"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -314,7 +304,16 @@
                         android:text="Insert New Value" />
                 </LinearLayout>
 
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/insertvalue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_plus"
+                    android:layout_gravity="end|bottom"
+                    android:layout_margin="@dimen/fab_margin"
+                    app:elevation="4dp"/>
             </LinearLayout>
+
         </ScrollView>
     </LinearLayout>
 
@@ -394,6 +393,9 @@
 
         </LinearLayout>
     </LinearLayout>
+
+
+
 
 </RelativeLayout>
 

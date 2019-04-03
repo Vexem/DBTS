@@ -302,11 +302,6 @@ public class HistoryPageActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void goToInsertActivity(View view) {
-        Intent myIntent = new Intent(this, InsertValueActivity.class);
-        startActivity(myIntent);
-    }
-
     public void goToHomePageActivity(View view) {
         Intent myIntent = new Intent(this, HomePageActivity.class);
         startActivity(myIntent);

@@ -113,11 +113,6 @@ public class ProfileActivity extends AppCompatActivity implements IprofileView {
         startActivity(myIntent);
     }
 
-    public void goToInsertActivity(View view) {
-        Intent myIntent = new Intent(this, InsertValueActivity.class);
-        startActivity(myIntent);
-    }
-
     public void goToGraphActivity(View view) {
         Intent myIntent = new Intent(this, GraphActivity.class);
         startActivity(myIntent);

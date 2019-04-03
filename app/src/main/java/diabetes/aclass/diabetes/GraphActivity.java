@@ -51,7 +51,16 @@ public class GraphActivity extends AppCompatActivity {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0, 1),
                 new DataPoint(1, 5),
-                new DataPoint(2, 3)
+                new DataPoint(2, 3),
+                new DataPoint(3, 1),
+                new DataPoint(4, 5),
+                new DataPoint(5, 3),
+                new DataPoint(6, 1),
+                new DataPoint(7, 5),
+                new DataPoint(8, 3),
+                new DataPoint(9, 1),
+                new DataPoint(10, 5),
+                new DataPoint(11, 3)
         });
         graph.addSeries(series);
 
@@ -59,7 +68,16 @@ public class GraphActivity extends AppCompatActivity {
         LineGraphSeries<DataPoint> series_point = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0, 1),
                 new DataPoint(1, 5),
-                new DataPoint(2, 3)
+                new DataPoint(2, 3),
+                new DataPoint(3, 1),
+                new DataPoint(4, 5),
+                new DataPoint(5, 3),
+                new DataPoint(6, 1),
+                new DataPoint(7, 5),
+                new DataPoint(8, 3),
+                new DataPoint(9, 1),
+                new DataPoint(10, 5),
+                new DataPoint(11, 3)
         });
         graph_point.addSeries(series_point);
         //date picker FROM
@@ -193,11 +211,6 @@ public class GraphActivity extends AppCompatActivity {
 
     public void goToHomePageActivity(View view) {
         Intent myIntent = new Intent(this, HomePageActivity.class);
-        startActivity(myIntent);
-    }
-
-    public void goToInsertActivity(View view) {
-        Intent myIntent = new Intent(this, InsertValueActivity.class);
         startActivity(myIntent);
     }
 

@@ -18,9 +18,6 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 import diabetes.aclass.model.UserEntity;
-import diabetes.aclass.presenter.PresenterImpl;
-
-import static diabetes.aclass.utils.Component.API_BASE;
 
 /**
  * A login screen that offers login via email/password.

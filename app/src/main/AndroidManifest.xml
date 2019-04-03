@@ -37,9 +37,6 @@
             android:name=".HomePageActivity"
             android:label="@string/home_page_name" />
         <activity
-            android:name=".InsertValueActivity"
-            android:label="Insertion" />
-        <activity
             android:name=".ProfileActivity"
             android:label="Profile" />
         <activity
@@ -54,15 +51,6 @@
         <activity
             android:name=".GraphActivity"
             android:label="Graph" />
-        <activity
-            android:name=".VerCode_Activity"
-            android:label="Verification Code" />
-        <activity
-            android:name=".ForgotP_Activity"
-            android:label="Forgot Password" />
-        <activity
-            android:name=".ResetPassword_Activity"
-            android:label="Reset Password" />
         <activity
             android:name=".InsertMedicActivity"
             android:label="Insert Medic Name"/>
