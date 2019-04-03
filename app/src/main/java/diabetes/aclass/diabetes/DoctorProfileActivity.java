@@ -29,10 +29,10 @@ import diabetes.aclass.model.MedicEntity;
 import diabetes.aclass.presenter.PresenterImpl;
 
 import static diabetes.aclass.utils.Component.API_BASE;
+import static diabetes.aclass.utils.Component.API_GET_MEDIC_BYID;
 
 public class DoctorProfileActivity extends AppCompatActivity {
 
-    private static final String URL_MEDIC = API_BASE +"/medics/getbyuid?medic_id=";
     PresenterImpl mainPresenter ;
      private TextView name;
      private TextView email;
@@ -113,11 +113,11 @@ public class DoctorProfileActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = preferences.edit();
             int MEDIC_ID = preferences.getInt("MEDIC_ID", -1);
             mainPresenter = new PresenterImpl();
-            mainPresenter.fetchData(URL_MEDIC+MEDIC_ID, new DataJsonCallback() {
+            mainPresenter.fetchData(API_GET_MEDIC_BYID+MEDIC_ID, new DataJsonCallback() {
                 @Override
                 public void onSuccess(JSONObject response) {
                     try {
-                        JSONArray array = response.getJSONArray("medics");
+                        JSONArray array = response.getJSONArray("medic");
                         assigned_medic = new MedicEntity();
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject medic = array.getJSONObject(i);
