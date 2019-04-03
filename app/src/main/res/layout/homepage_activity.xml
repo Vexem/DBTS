@@ -281,27 +281,8 @@
                                 android:gravity="center"
                                 android:text=" "
                                 android:textAppearance="?android:attr/textAppearanceLarge" />
-
                         </TableRow>
                     </TableLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp">
-
-                    <Button
-                        android:id="@+id/manual_insertion2"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="60dp"
-                        android:layout_weight="1"
-                        android:onClick="goToInsertActivity"
-                        android:text="Insert New Value" />
                 </LinearLayout>
 
                 <android.support.design.widget.FloatingActionButton
@@ -340,7 +321,6 @@
             android:background="@android:color/darker_gray"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-
 
             <ImageButton
                 android:id="@+id/home_button"

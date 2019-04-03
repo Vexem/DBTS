@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -64,8 +65,10 @@ public class HomePageActivity extends AppCompatActivity {
 
         final EditText edt = (EditText) dialogView.findViewById(R.id.edit1);
 
-        dialogBuilder.setTitle("Custom dialog");
-        dialogBuilder.setMessage("Enter text below");
+        edt.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        dialogBuilder.setTitle("Insert Value");
+        dialogBuilder.setMessage("Enter value below");
         dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //do something with edt.getText().toString();
