@@ -171,7 +171,7 @@ public class HistoryPageActivity extends AppCompatActivity {
                         MeasurementEntity puppetME;
                         Date puppetDATE;
                         JSONObject measure = array.getJSONObject(i);
-                        puppetME = new MeasurementEntity(measure.getInt("patient_id"),
+                        puppetME = new MeasurementEntity(measure.getString("patient_id"),
                                 measure.getInt("value"),
                                 measure.getString("created_at"));
                         puppetDATE = new Date(puppetME.getYear(),puppetME.getMonth(),puppetME.getDay());
@@ -181,7 +181,7 @@ public class HistoryPageActivity extends AppCompatActivity {
   //                              if (to_day >= puppetME.getDay() && puppetME.getDay() >= from_day) {
 
                                     measureList.add(new MeasurementEntity(
-                                            measure.getInt("patient_id"),
+                                            measure.getString("patient_id"),
                                             measure.getInt("value"),
                                             measure.getString("created_at")));
                             adapter = new MeasureAdapter(HistoryPageActivity.this, measureList);

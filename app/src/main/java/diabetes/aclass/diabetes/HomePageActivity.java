@@ -2,7 +2,9 @@ package diabetes.aclass.diabetes;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,9 +24,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import diabetes.aclass.model.MeasurementEntity;
+import diabetes.aclass.presenter.PostManagement;
+
+import static diabetes.aclass.utils.Component.API_POST_MEASUREMENTS;
+import static diabetes.aclass.utils.Component.API_POST_USER;
 
 /**
  * A login screen that offers login via email/password.
@@ -67,11 +76,23 @@ public class HomePageActivity extends AppCompatActivity {
 
         edt.setInputType(InputType.TYPE_CLASS_NUMBER);
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final String ID = preferences.getString("ID", "DEF");
+        Long tsLong = System.currentTimeMillis()/1000;
+        final String ts = tsLong.toString();
+
         dialogBuilder.setTitle("Insert Value");
         dialogBuilder.setMessage("Enter value below");
         dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                //do something with edt.getText().toString();
+
+                MeasurementEntity measurementEntity = new MeasurementEntity();
+                measurementEntity.setId(ID);
+                int value =  Integer.parseInt(edt.getText().toString());
+                measurementEntity.setValue(value);
+
+                measurementEntity.setCreated_atDate(ts);
+                saveMeasurement(measurementEntity);
             }
         });
         dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -83,6 +104,20 @@ public class HomePageActivity extends AppCompatActivity {
         b.show();
     }
 
+    private void saveMeasurement(MeasurementEntity measurementEntity){
+        PostManagement pm = new PostManagement();
+
+        try {
+            String url = API_POST_MEASUREMENTS;
+            Gson json = new Gson();
+            String postdata = json.toJson(measurementEntity);
+            pm.saveData(url, postdata);
+        } catch(Exception e){
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -15,7 +15,7 @@ public class MeasurementEntity {
     @Expose
     @PrimaryKey
     @NonNull
-    private int id;
+    private String id;
 
     @SerializedName("name")
     @Expose
@@ -28,6 +28,7 @@ public class MeasurementEntity {
     @SerializedName("created_at")
     @Expose
     private String created_atDate;
+
     private String created_atTime;
     private String updated_at;
 
@@ -35,13 +36,14 @@ public class MeasurementEntity {
     @Expose
     private String when_inserted;
 
-    public MeasurementEntity(int patient_id, int value, String created_at){
+    public MeasurementEntity(String patient_id, int value, String created_at){
         this.id = patient_id;
         this.value = value;
         this.created_atDate = created_at.substring(0,10);
         this.created_atTime = "at: " + created_at.substring(11,19);
 
     }
+    public MeasurementEntity(){}
 
     public int getIdCounter() {
         return idCounter;
@@ -51,11 +53,11 @@ public class MeasurementEntity {
         this.idCounter = idCounter;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
