@@ -17,6 +17,9 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import diabetes.aclass.model.UserEntity;
 
 /**
@@ -30,9 +33,17 @@ public class LoginActivity extends Activity {
     private int RC_SIGN_IN = 0;
     public UserEntity logged_user;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        Set<String> set = new HashSet<String>();
+        editor.putStringSet("TO_SEND", set);
+        editor.apply();
+
 
         GoogleSignInAccount alreadyloggedAccount = GoogleSignIn.getLastSignedInAccount(this);
         if (alreadyloggedAccount != null) {

@@ -30,6 +30,8 @@ import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Set;
 
 import diabetes.aclass.model.MeasurementEntity;
 import diabetes.aclass.presenter.PostManagement;
@@ -44,6 +46,14 @@ public class HomePageActivity extends AppCompatActivity {
     private boolean value = false;
     public Button button;
     private TextView last_meas;
+    private SharedPreferences preferences ;
+    SharedPreferences.Editor editor;
+    private Set<String> set ;
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +68,17 @@ public class HomePageActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         dateBoxText.setText(sdf.format(new Date()));
 
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = preferences.edit();
+        set = preferences.getStringSet("TO_SEND", null);
+
+
         last_meas =   findViewById(R.id.last_meas);
+
+        if(!set.isEmpty()){
+        saveOLDMeasurements();
+        }
 
 
         FloatingActionButton fab = findViewById(R.id.insertvalue);
@@ -113,20 +133,51 @@ public class HomePageActivity extends AppCompatActivity {
 
     private void saveMeasurement(MeasurementEntity measurementEntity){
         PostManagement pm = new PostManagement();
+        Gson json = new Gson();
+        String postdata = json.toJson(measurementEntity);
+        String url = API_POST_MEASUREMENTS;
+
 
         try {
-            String url = API_POST_MEASUREMENTS;
-            Gson json = new Gson();
-            String postdata = json.toJson(measurementEntity);
             pm.saveData(url, postdata);
             Toast.makeText(this, "Value Inserted", Toast.LENGTH_SHORT).show();
 
         } catch(Exception e){
-            // TODO Auto-generated catch block
+            set.add(postdata);
+            editor.putStringSet("TO_SEND", set);
+            editor.apply();
+            Toast.makeText(this, "Value NOT Inserted", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
 
     }
+
+
+    private void saveOLDMeasurements(){
+
+        PostManagement pm = new PostManagement();
+        String url = API_POST_MEASUREMENTS;
+        boolean up = true;
+        Iterator<String> it = set.iterator();
+        while(it.hasNext()&& up ){
+            String put = it.next();
+
+            try {
+                pm.saveData(url, put);
+                set.remove(put);
+                editor.putStringSet("TO_SEND", set);
+                editor.apply();
+                Toast.makeText(this, "Value Inserted", Toast.LENGTH_SHORT).show();
+
+            } catch(Exception e){
+               up = false;
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
