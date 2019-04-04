@@ -34,9 +34,9 @@
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_alignStart="@+id/content_layout"
             android:layout_marginTop="10dp"
-            android:background="@android:color/transparent">
+            android:background="@android:color/transparent"
+            android:layout_alignLeft="@+id/content_layout">
 
             <LinearLayout
                 android:id="@+id/profile"
@@ -272,8 +272,7 @@
                 android:drawableTop="@color/button_color"
                 android:gravity="bottom"
                 android:src="@drawable/graph_image"
-                android:text="@string/graphpage"
-                android:onClick="goToGraphActivity"/>
+                android:text="@string/graphpage" />
 
             <ImageButton
                 android:id="@+id/hist_button"

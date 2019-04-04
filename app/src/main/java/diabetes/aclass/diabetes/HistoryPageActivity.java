@@ -20,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -195,9 +196,10 @@ public class HistoryPageActivity extends AppCompatActivity {
                 } catch (JsonIOException | JSONException e) {
                     Log.e("", e.getMessage(), e);
                 }
-
             }
         });
+        Toast.makeText(this, "History Updated", Toast.LENGTH_SHORT).show();
+
     }
 
     private void updateDisplay(TextView dateDisplay, Calendar date) {

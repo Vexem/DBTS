@@ -100,13 +100,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
+                        android:enabled="false"
                         android:hint="Measure"
                         android:inputType="number"
                         android:textAlignment="center"
                         android:textSize="36sp"
                         android:textStyle="bold"
-                        android:visibility="visible"
-                        android:enabled="false"/>
+                        android:visibility="visible" />
                 </LinearLayout>
 
 

@@ -42,17 +42,6 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small.Inverse"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textViewPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textViewRating"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:text="INR 56990"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:textStyle="bold" />
-
     </RelativeLayout>
 
 </LinearLayout>

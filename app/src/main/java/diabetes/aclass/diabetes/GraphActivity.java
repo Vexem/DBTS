@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -132,6 +133,7 @@ public class GraphActivity extends AppCompatActivity {
 
     private void loadProducts (Calendar from, Calendar to){
 
+
         final int to_day = toDate.get(Calendar.DAY_OF_MONTH);
         final int to_month = toDate.get(Calendar.MONTH);
         final int to_year= toDate.get(Calendar.YEAR) ;
@@ -172,6 +174,7 @@ public class GraphActivity extends AppCompatActivity {
 
                         }
                     }
+
                     graph.addSeries(lineGraphSeries);
                     graph.getViewport().setMinX(0);
                     graph.getViewport().setMaxX(counter-1);
@@ -180,12 +183,14 @@ public class GraphActivity extends AppCompatActivity {
                     graph.getViewport().setXAxisBoundsManual(true);
                     graph.getViewport().setYAxisBoundsManual(true);
 
+
                 } catch (JsonIOException | JSONException e) {
                     Log.e("", e.getMessage(), e);
                 }
 
             }
         });
+        Toast.makeText(this, "Graph Updated", Toast.LENGTH_SHORT).show();
     }
 
     private void updateDisplay(TextView dateDisplay, Calendar date) {

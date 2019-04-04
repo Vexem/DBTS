@@ -38,7 +38,7 @@ public class MeasureAdapter extends RecyclerView.Adapter<MeasureAdapter.MeasureV
         holder.textViewTitle.setText(String.valueOf(measure.getDate()));
         holder.textViewShortDesc.setText(String.valueOf(measure.getCreated_atTime()));
         holder.textViewRating.setText(String.valueOf(measure.getValue()));
-        holder.textViewPrice.setText(String.valueOf(measure.getId()));
+     //   holder.textViewPrice.setText(String.valueOf(measure.getId()));
     }
 
     @Override
@@ -57,7 +57,7 @@ public class MeasureAdapter extends RecyclerView.Adapter<MeasureAdapter.MeasureV
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewShortDesc = itemView.findViewById(R.id.textViewShortDesc);
             textViewRating = itemView.findViewById(R.id.textViewRating);
-            textViewPrice = itemView.findViewById(R.id.textViewPrice);
+           // textViewPrice = itemView.findViewById(R.id.textViewPrice);
            // imageView = itemView.findViewById(R.id.imageView);
         }
     }

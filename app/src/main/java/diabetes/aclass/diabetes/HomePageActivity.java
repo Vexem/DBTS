@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -41,6 +43,7 @@ import static diabetes.aclass.utils.Component.API_POST_USER;
 public class HomePageActivity extends AppCompatActivity {
     private boolean value = false;
     public Button button;
+    private TextView last_meas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,9 @@ public class HomePageActivity extends AppCompatActivity {
         EditText dateBoxText = findViewById(R.id.date_box);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         dateBoxText.setText(sdf.format(new Date()));
+
+        last_meas =   findViewById(R.id.last_meas);
+
 
         FloatingActionButton fab = findViewById(R.id.insertvalue);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +95,7 @@ public class HomePageActivity extends AppCompatActivity {
                 MeasurementEntity measurementEntity = new MeasurementEntity();
                 measurementEntity.setId(ID);
                 int value =  Integer.parseInt(edt.getText().toString());
+                last_meas.setText(edt.getText().toString());
                 measurementEntity.setValue(value);
 
                 measurementEntity.setCreated_atDate(ts);
@@ -112,6 +119,8 @@ public class HomePageActivity extends AppCompatActivity {
             Gson json = new Gson();
             String postdata = json.toJson(measurementEntity);
             pm.saveData(url, postdata);
+            Toast.makeText(this, "Value Inserted", Toast.LENGTH_SHORT).show();
+
         } catch(Exception e){
             // TODO Auto-generated catch block
             e.printStackTrace();
