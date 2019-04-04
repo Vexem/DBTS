@@ -136,7 +136,7 @@ public class InsertMedicActivity extends AppCompatActivity implements AdapterVie
             String url = API_POST_USER;
             Gson json = new Gson();
             String postdata = json.toJson(userEntity);
-            pm.saveData(url, postdata);
+            pm.saveData(url, postdata, null);
         } catch(Exception e){
             // TODO Auto-generated catch block
             e.printStackTrace();

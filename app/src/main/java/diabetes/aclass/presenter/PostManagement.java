@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.IOException;
 
+import diabetes.aclass.diabetes.HomePageActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -15,7 +16,7 @@ import okhttp3.Response;
 import static android.support.constraint.Constraints.TAG;
 
 public class PostManagement {
-    public void saveData(String url, String postdata){
+    public void saveData(String url, String postdata, final Callback callback){
         OkHttpClient client = new OkHttpClient();
 
         MediaType MEDIA_TYPE = MediaType.parse("application/json");
@@ -32,13 +33,17 @@ public class PostManagement {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.w("failure Response", "failure Response");
+                callback.onFailure(call,e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String mMessage = response.body().string();
                 Log.e(TAG, mMessage);
+                callback.onResponse(call, response);
             }
         });
     }
+
+
 }
