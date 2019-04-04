@@ -34,10 +34,10 @@ import static diabetes.aclass.utils.Component.API_GET_MEDIC_BYID;
 public class DoctorProfileActivity extends AppCompatActivity {
 
     PresenterImpl mainPresenter ;
-     private TextView name;
-     private TextView email;
-     private TextView hospital;
-     public MedicEntity assigned_medic;
+    private TextView name;
+    private TextView email;
+    private TextView hospital;
+    public MedicEntity assigned_medic;
 
 
     @Override
@@ -46,9 +46,9 @@ public class DoctorProfileActivity extends AppCompatActivity {
         setContentView(R.layout.doctor_profile_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-          name =   findViewById(R.id.doc_name);
-          email =  findViewById(R.id.doc_email);
-          hospital =  findViewById(R.id.clinic_hospital);
+        name =   findViewById(R.id.doc_name);
+        email =  findViewById(R.id.doc_email);
+        hospital =  findViewById(R.id.clinic_hospital);
         name.setText("serverNotResponding");
         email.setText("serverNotResponding");
         hospital.setText("serverNotResponding");
@@ -113,8 +113,7 @@ public class DoctorProfileActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = preferences.edit();
             int MEDIC_ID = preferences.getInt("MEDIC_ID", -1);
             mainPresenter = new PresenterImpl();
-            String cicio = API_GET_MEDIC_BYID+MEDIC_ID;
-            mainPresenter.fetchData(cicio, new DataJsonCallback() {
+            mainPresenter.fetchData(API_GET_MEDIC_BYID+MEDIC_ID, new DataJsonCallback() {
                 @Override
                 public void onSuccess(JSONObject response) {
                     try {
@@ -122,10 +121,10 @@ public class DoctorProfileActivity extends AppCompatActivity {
                         assigned_medic = new MedicEntity();
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject medic = array.getJSONObject(i);
-                                name.setText(medic.getString("medic_name"));
-                                email.setText(medic.getString("medic_mail"));
-                                hospital.setText(medic.getString("medic_hospital"));
-                            }
+                            name.setText(medic.getString("medic_name"));
+                            email.setText(medic.getString("medic_mail"));
+                            hospital.setText(medic.getString("medic_hospital"));
+                        }
 
                     } catch (JsonIOException | JSONException e) {
                         Log.e("", e.getMessage(), e);
