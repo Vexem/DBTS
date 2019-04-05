@@ -24,12 +24,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Set;
+
 import diabetes.aclass.dagger.component.DataJsonCallback;
 import diabetes.aclass.model.MedicEntity;
+import diabetes.aclass.presenter.PostManagement;
 import diabetes.aclass.presenter.PresenterImpl;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 import static diabetes.aclass.utils.Component.API_BASE;
 import static diabetes.aclass.utils.Component.API_GET_MEDIC_BYID;
+import static diabetes.aclass.utils.Component.API_POST_MEASUREMENTS;
 
 public class DoctorProfileActivity extends AppCompatActivity {
 
@@ -38,6 +47,9 @@ public class DoctorProfileActivity extends AppCompatActivity {
     private TextView email;
     private TextView hospital;
     public MedicEntity assigned_medic;
+    private SharedPreferences preferences ;
+    SharedPreferences.Editor editor;
+    private Set<String> set ;
 
 
     @Override
@@ -52,7 +64,18 @@ public class DoctorProfileActivity extends AppCompatActivity {
         name.setText("serverNotResponding");
         email.setText("serverNotResponding");
         hospital.setText("serverNotResponding");
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = preferences.edit();
+        set = preferences.getStringSet("TO_SEND", null);
+
+        if(!set.isEmpty()){
+            saveOLDMeasurements();
+        }
+
         loadData();
+
+
     }
 
     @Override
@@ -104,6 +127,32 @@ public class DoctorProfileActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void saveOLDMeasurements(){
+
+        PostManagement pm = new PostManagement();
+        String url = API_POST_MEASUREMENTS;
+        boolean up = true;
+        Iterator<String> it = set.iterator();
+        while(it.hasNext()&& up ){
+            final String put = it.next();
+
+            pm.saveData(url, put, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    set.remove(put);
+                    editor.putStringSet("TO_SEND", set);
+                    editor.apply();
+                }
+            });
+        }
+
     }
 
 

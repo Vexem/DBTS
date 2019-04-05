@@ -3,8 +3,8 @@ package diabetes.aclass.utils;
 public class Component {
 //    public static final String API_BASE = "http://192.168.1.73/api/v1/";
 //    public static final String API_BASE = "http://192.168.43.70/";
-    public static final String API_BASE = "http://192.168.1.7/";
-//    public static final String API_BASE = "http://192.168.1.73/";
+//    public static final String API_BASE = "http://192.168.1.7/";
+    public static final String API_BASE = "http://192.168.1.73/";
     public static final String API_GET_USERS = API_BASE + "users";
     public static final String API_GET_USER_BYID = API_BASE + "users/getuserbyid?user_id=";
     public static final String API_POST_USER = API_BASE + "users/saveuser";

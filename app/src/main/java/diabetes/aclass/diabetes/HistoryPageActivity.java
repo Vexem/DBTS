@@ -33,17 +33,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import diabetes.aclass.dagger.component.DataJsonCallback;
 import diabetes.aclass.model.MeasurementEntity;
+import diabetes.aclass.presenter.PostManagement;
 import diabetes.aclass.presenter.PresenterImpl;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 import static diabetes.aclass.utils.Component.API_BASE;
+import static diabetes.aclass.utils.Component.API_POST_MEASUREMENTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -74,6 +82,10 @@ public class HistoryPageActivity extends AppCompatActivity {
     private PresenterImpl mainPresenter ;
     private  String complete_url;
     static final int DATE_DIALOG_ID = 0;
+    private SharedPreferences preferences ;
+    SharedPreferences.Editor editor;
+    private Set<String> set ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +102,10 @@ public class HistoryPageActivity extends AppCompatActivity {
 
 
         measureList = new ArrayList<>();
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = preferences.edit();
+        set = preferences.getStringSet("TO_SEND", null);
 
 
         //set the date box value with today date
@@ -123,6 +139,10 @@ public class HistoryPageActivity extends AppCompatActivity {
         });
         updateDisplay(dateFromTv, toDate);
         updateDisplay(dateToTv, toDate);
+
+        if(!set.isEmpty()){
+            saveOLDMeasurements();
+        }
 
         final Button button = (Button) findViewById(R.id.search_button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -199,6 +219,32 @@ public class HistoryPageActivity extends AppCompatActivity {
             }
         });
         Toast.makeText(this, "History Updated", Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void saveOLDMeasurements(){
+
+        PostManagement pm = new PostManagement();
+        String url = API_POST_MEASUREMENTS;
+        boolean up = true;
+        Iterator<String> it = set.iterator();
+        while(it.hasNext()&& up ){
+            final String put = it.next();
+
+            pm.saveData(url, put, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    set.remove(put);
+                    editor.putStringSet("TO_SEND", set);
+                    editor.apply();
+                }
+            });
+        }
 
     }
 

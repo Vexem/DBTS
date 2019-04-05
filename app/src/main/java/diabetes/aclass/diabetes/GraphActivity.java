@@ -34,16 +34,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import diabetes.aclass.dagger.component.DataJsonCallback;
 import diabetes.aclass.model.MeasurementEntity;
+import diabetes.aclass.presenter.PostManagement;
 import diabetes.aclass.presenter.PresenterImpl;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 import static diabetes.aclass.utils.Component.API_BASE;
 import static diabetes.aclass.utils.Component.API_GET_USER_BYID;
+import static diabetes.aclass.utils.Component.API_POST_MEASUREMENTS;
 
 public class GraphActivity extends AppCompatActivity {
 
@@ -61,7 +69,9 @@ public class GraphActivity extends AppCompatActivity {
     private  String complete_url;
     private GraphView graph;
     private LineGraphSeries<DataPoint> lineGraphSeries;
-
+    private SharedPreferences preferences ;
+    SharedPreferences.Editor editor;
+    private Set<String> set ;
 
 
 
@@ -77,6 +87,9 @@ public class GraphActivity extends AppCompatActivity {
         lineGraphSeries = new LineGraphSeries<>();
         graph.addSeries(lineGraphSeries);
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = preferences.edit();
+        set = preferences.getStringSet("TO_SEND", null);
 
         //date picker FROM
         dateFromTv = (TextView) findViewById(R.id.date_from);
@@ -103,6 +116,10 @@ public class GraphActivity extends AppCompatActivity {
         updateDisplay(dateFromTv, toDate);
         updateDisplay(dateToTv, toDate);
 
+
+        if(!set.isEmpty()){
+            saveOLDMeasurements();
+        }
 
         final Button button = (Button) findViewById(R.id.search_button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -191,6 +208,32 @@ public class GraphActivity extends AppCompatActivity {
             }
         });
         Toast.makeText(this, "Graph Updated", Toast.LENGTH_SHORT).show();
+    }
+
+    public void saveOLDMeasurements(){
+
+        PostManagement pm = new PostManagement();
+        String url = API_POST_MEASUREMENTS;
+        boolean up = true;
+        Iterator<String> it = set.iterator();
+        while(it.hasNext()&& up ){
+            final String put = it.next();
+
+            pm.saveData(url, put, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    set.remove(put);
+                    editor.putStringSet("TO_SEND", set);
+                    editor.apply();
+                }
+            });
+        }
+
     }
 
     private void updateDisplay(TextView dateDisplay, Calendar date) {
