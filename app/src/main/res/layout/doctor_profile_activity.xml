@@ -12,9 +12,9 @@
         android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
         android:background="@android:color/transparent"
-        android:orientation="vertical"
-        android:layout_marginBottom="50dp">
+        android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -31,11 +31,10 @@
         </android.support.design.widget.AppBarLayout>
 
         <ScrollView
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@android:color/transparent"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent">
 
             <LinearLayout
                 android:id="@+id/profile"
@@ -55,42 +54,92 @@
                     android:layout_marginBottom="@dimen/profile_img_margin_bottom"
                     android:src="@drawable/red_cross" />
 
-                <TextView
-                    android:id="@+id/doc_name"
-                    android:layout_width="305dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="45dp"
-                    android:layout_marginTop="20dp"
-                    android:gravity="left"
-                    android:hint="Name"
-                    android:textSize="@dimen/profile_data"
-                    android:textStyle="normal"
-                    android:visibility="visible" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="30dp">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+
+
+
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/label" />
+
+                    <TextView
+                        android:id="@+id/doc_name"
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_weight="0"
+                        android:gravity="left"
+                        android:hint="Name"
+                        android:textSize="@dimen/profile_data"
+                        android:textStyle="normal"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/letter" />
 
                 <TextView
                     android:id="@+id/doc_email"
-                    android:layout_width="305dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="45dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="0"
                     android:gravity="left"
                     android:hint="e-mail"
                     android:textSize="@dimen/profile_data"
                     android:textStyle="normal"
-                    android:visibility="visible" />
+                    android:visibility="visible"/>
+            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/map" />
                 <TextView
                     android:id="@+id/clinic_hospital"
-                    android:layout_width="305dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="45dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="0"
                     android:gravity="left"
-                    android:hint="Clinic/Hospital"
+                    android:hint="clinic"
                     android:textSize="@dimen/profile_data"
                     android:textStyle="normal"
-                    android:visibility="visible" />
-
+                    android:visibility="visible"/>
+            </LinearLayout>
             </LinearLayout>
 
         </ScrollView>

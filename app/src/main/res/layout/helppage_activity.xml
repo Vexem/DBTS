@@ -122,17 +122,6 @@
                     android:layout_marginRight="20dp"
                     android:textColor="@android:color/black"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/help_text_8"
-                    android:textSize="@dimen/help_text"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:textColor="@android:color/black"/>
-
             </LinearLayout>
 
         </ScrollView>

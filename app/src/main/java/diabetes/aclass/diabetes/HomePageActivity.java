@@ -10,8 +10,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,20 +30,31 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
+import diabetes.aclass.dagger.component.DataJsonCallback;
 import diabetes.aclass.model.MeasurementEntity;
 import diabetes.aclass.presenter.PostManagement;
+import diabetes.aclass.presenter.PresenterImpl;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static diabetes.aclass.utils.Component.API_BASE;
 import static diabetes.aclass.utils.Component.API_POST_MEASUREMENTS;
 import static diabetes.aclass.utils.Component.API_POST_USER;
 
@@ -48,12 +62,25 @@ import static diabetes.aclass.utils.Component.API_POST_USER;
  * A login screen that offers login via email/password.
  */
 public class HomePageActivity extends AppCompatActivity {
+
+    private static final String URL_MEASUREMENT = API_BASE +"/measurements/dailyvaluesbyid?patient_id=";
+
     private boolean value = false;
     public Button button;
     private TextView last_meas;
     private SharedPreferences preferences ;
     SharedPreferences.Editor editor;
     private Set<String> set ;
+
+
+    List<MeasurementEntity> measureList;
+    MeasureAdapter adapter ;
+    Boolean adapterInitialized = false;
+    RecyclerView recyclerView;
+    private  String complete_url;
+    private PresenterImpl mainPresenter ;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +89,13 @@ public class HomePageActivity extends AppCompatActivity {
         setContentView(R.layout.homepage_activity);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        measureList = new ArrayList<>();
+
 
         //set the date box value with today date
         EditText dateBoxText = findViewById(R.id.date_box);
@@ -89,7 +123,48 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
+        loadProducts();
+
     }
+
+    private void loadProducts() {
+
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String ID = preferences.getString("ID", "DEF");
+        complete_url = URL_MEASUREMENT + ID;
+        mainPresenter = new PresenterImpl();
+        mainPresenter.fetchData(complete_url, new DataJsonCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                try {
+                    JSONArray array = response.getJSONArray("daily_measurements");
+                    for (int i = 0; i < array.length(); i++) {
+                        MeasurementEntity puppetME;
+                        JSONObject measure = array.getJSONObject(i);
+
+                            measureList.add(new MeasurementEntity(
+                                    measure.getString("patient_id"),
+                                    measure.getInt("value"),
+                                    measure.getString("created_at")));
+                            adapter = new MeasureAdapter(HomePageActivity.this, measureList);
+                            if(!adapterInitialized) adapterInitialized = true;
+                            recyclerView.setAdapter(adapter);
+
+                    }
+
+                } catch (JsonIOException | JSONException e) {
+                    Log.e("", e.getMessage(), e);
+                }
+            }
+        });
+        Toast.makeText(this, "Daily Values Updated", Toast.LENGTH_SHORT).show();
+
+    }
+
+
+
+
 
 
     public void showChangeLangDialog() {
@@ -147,9 +222,10 @@ public class HomePageActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
             }
         });
+
+
     }
 
     public void saveOLDMeasurements(){
@@ -174,6 +250,7 @@ public class HomePageActivity extends AppCompatActivity {
                     editor.apply();
                 }
             });
+
         }
 
     }
@@ -236,6 +313,13 @@ public class HomePageActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void updateRC(View view){
+        measureList.clear(); // clear list
+        if(adapterInitialized){
+            adapter.notifyDataSetChanged();}
+        loadProducts();
+
+    }
     public void goToDoctorActivity(View view) {
         Intent myIntent = new Intent(this, DoctorProfileActivity.class);
         startActivity(myIntent);

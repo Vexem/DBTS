@@ -65,7 +65,6 @@ public class HistoryPageActivity extends AppCompatActivity {
     List<MeasurementEntity> measureList;
     MeasureAdapter adapter ;
     Boolean adapterInitialized = false;
-
     RecyclerView recyclerView;
 
 
