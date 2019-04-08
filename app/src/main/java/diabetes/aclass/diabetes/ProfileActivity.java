@@ -68,9 +68,6 @@ public class ProfileActivity extends AppCompatActivity implements IprofileView {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         if (id == R.id.action_profile) {
             return true;
