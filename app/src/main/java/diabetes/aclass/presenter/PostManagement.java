@@ -33,6 +33,7 @@ public class PostManagement {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.w("failure Response", "failure Response");
+                if (callback == null) return;
                 callback.onFailure(call,e);
             }
 
@@ -40,7 +41,13 @@ public class PostManagement {
             public void onResponse(Call call, Response response) throws IOException {
                 String mMessage = response.body().string();
                 Log.e(TAG, mMessage);
-                callback.onResponse(call, response);
+
+                try {
+                    if (callback == null) return;
+                    callback.onResponse(call, response);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
