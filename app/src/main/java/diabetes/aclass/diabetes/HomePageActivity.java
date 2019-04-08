@@ -187,17 +187,23 @@ public class HomePageActivity extends AppCompatActivity {
         dialogBuilder.setMessage("Enter value below");
         dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
+                String input = edt.getText().toString();
+                if(input.matches("")){
+                    Toast.makeText(HomePageActivity.this, "ERROR: Insert a Value", Toast.LENGTH_SHORT).show();
 
-                MeasurementEntity measurementEntity = new MeasurementEntity();
-                measurementEntity.setId(ID);
-                int value =  Integer.parseInt(edt.getText().toString());
-                editor.putInt("LAST_MEAS", value);
-                editor.apply();
-                last_meas.setText(Integer.toString(preferences.getInt("LAST_MEAS", -1)));
-                measurementEntity.setValue(value);
+                }
+                else {
+                    MeasurementEntity measurementEntity = new MeasurementEntity();
+                    measurementEntity.setId(ID);
+                    int value = Integer.parseInt(input);
+                    editor.putInt("LAST_MEAS", value);
+                    editor.apply();
+                    last_meas.setText(Integer.toString(preferences.getInt("LAST_MEAS", -1)));
+                    measurementEntity.setValue(value);
 
-                measurementEntity.setCreated_atDate(ts);
-                saveMeasurement(measurementEntity);
+                    measurementEntity.setCreated_atDate(ts);
+                    saveMeasurement(measurementEntity);
+                }
             }
         });
         dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
