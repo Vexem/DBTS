@@ -108,7 +108,10 @@ public class HomePageActivity extends AppCompatActivity {
         set = preferences.getStringSet("TO_SEND", null);
 
 
+
         last_meas =   findViewById(R.id.last_meas);
+        last_meas.setText(Integer.toString(preferences.getInt("LAST_MEAS", -1)));
+        editor.apply();
 
         if(!set.isEmpty()){
         saveOLDMeasurements();
@@ -130,7 +133,6 @@ public class HomePageActivity extends AppCompatActivity {
     private void loadProducts() {
 
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String ID = preferences.getString("ID", "DEF");
         complete_url = URL_MEASUREMENT + ID;
         mainPresenter = new PresenterImpl();
@@ -177,7 +179,6 @@ public class HomePageActivity extends AppCompatActivity {
 
         edt.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final String ID = preferences.getString("ID", "DEF");
         Long tsLong = System.currentTimeMillis()/1000;
         final String ts = tsLong.toString();
@@ -190,7 +191,9 @@ public class HomePageActivity extends AppCompatActivity {
                 MeasurementEntity measurementEntity = new MeasurementEntity();
                 measurementEntity.setId(ID);
                 int value =  Integer.parseInt(edt.getText().toString());
-                last_meas.setText(edt.getText().toString());
+                editor.putInt("LAST_MEAS", value);
+                editor.apply();
+                last_meas.setText(Integer.toString(preferences.getInt("LAST_MEAS", -1)));
                 measurementEntity.setValue(value);
 
                 measurementEntity.setCreated_atDate(ts);
