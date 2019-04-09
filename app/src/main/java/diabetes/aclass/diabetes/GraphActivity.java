@@ -301,13 +301,13 @@ public class GraphActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         if (id == R.id.action_profile) {
-            return true;
-        }
+            Intent myIntent = new Intent(this, ProfileActivity.class);
+            //this.startActivity(myIntent);
+            startActivity(myIntent);
+            return true;        }
 
         if (id == R.id.action_help) {
             Intent myIntent = new Intent(this, HelpPageActivity.class);

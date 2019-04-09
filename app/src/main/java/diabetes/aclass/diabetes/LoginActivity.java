@@ -42,6 +42,7 @@ public class LoginActivity extends Activity {
         SharedPreferences.Editor editor = preferences.edit();
         Set<String> set = new HashSet<String>();
         editor.putStringSet("TO_SEND", set);
+        editor.putInt("LAST_MEAS",-1);
         editor.apply();
 
 
@@ -126,6 +127,8 @@ public class LoginActivity extends Activity {
         editor.putString("MAIL",logged_user.getEmail());
         editor.putString("NAME",logged_user.getFirst_name());
         editor.putString("SURNAME",logged_user.getLast_name());
+
+
 
         editor.apply();
     }
