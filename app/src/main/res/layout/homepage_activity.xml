@@ -12,11 +12,9 @@
         android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_marginBottom="50dp"
         android:background="@android:color/transparent"
         android:orientation="vertical">
-
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -128,36 +126,37 @@
                         android:scrollbars="horizontal" />
 
                 </RelativeLayout>
-            </LinearLayout>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="30dp">
+
+                    <ImageView
+                        android:id="@+id/refresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerInParent="true"
+                        android:onClick="updateRC"
+                        app:srcCompat="@drawable/refresh"
+                        tools:layout_gravity="end|bottom" />
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/insertvalue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="0"
+                        app:srcCompat="@drawable/ic_plus" />
+                </RelativeLayout>
+                
+            </LinearLayout>
         </ScrollView>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="30dp">
-
-            <ImageView
-                android:id="@+id/refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerInParent="true"
-                android:onClick="updateRC"
-                app:srcCompat="@drawable/refresh"
-                tools:layout_gravity="end|bottom" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/insertvalue"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginRight="10dp"
-                android:layout_weight="0"
-                app:srcCompat="@drawable/ic_plus" />
-        </RelativeLayout>
     </LinearLayout>
 
 
